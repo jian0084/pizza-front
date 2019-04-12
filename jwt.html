@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JWT Token</title>
+    <style>
+        html {
+            font-size: 24px;
+            line-height: 1.6;
+            font-weight: 300;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        button,
+        p {
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>JWT Tokens with Fetch</h1>
+    <p>Reference: <a href="https://jwt.io/">JWT website</a></p>
+    <p><button id="btnLogin">Pretend to Login and Get Token</button></p>
+    <p><button id="btnSend">Send API call with Token</button></p>
+    <p id="output"></p>
+    <script>
+        const TOKEN =
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
+        const KEY = 'MyAwesomeWebsiteStorageKey';
+        const response = {
+            "data": {
+                "token": TOKEN
+            }
+        }
+        const BASEURL = 'https://jsonplaceholder.typicode.com/';
+        //const BASEURL = 'http://127.0.0.1:5500';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('btnLogin').addEventListener('click', doLogin);
+            document.getElementById('btnSend').addEventListener('click', sendAPICall);
+        });
+        function doLogin(ev) {
+            ev.preventDefault();
+            let fetchy = new Promise(function (resolve, reject) {
+                resolve(response);
+            })
+            fetchy
+                .then(response => {
+                    //from a fetch you would be using response.json()
+                    return response;
+                })
+                .then(result => {
+                    let data = result.data;
+                    console.log('TOKEN', data.token);
+                    //put this in sessionStorage
+                    sessionStorage.setItem(KEY, JSON.stringify(data.token));
+                })
+                .catch(err => {
+                    console.error('We are pretending to fail');
+                })
+        }
+        function sendAPICall(ev) {
+            ev.preventDefault();
+            //define the end point for the request
+            let url = BASEURL + "posts";
+            //prepare the data to send to the server
+            let someData = {
+                id: 123456,
+                note: "This is a JS object. It might not have the double quotes on the property names."
+            };
+            let jsonData = JSON.stringify(someData);
+            //get the token from sessionStorage
+            let token = JSON.parse(sessionStorage.getItem(KEY));
+            //create a Headers object
+            let headers = new Headers();
+            //append the Authorization header
+            headers.append('Authorization', 'Bearer ' + token);
+            headers.append('Content-Type', 'application/json;charset=UTF-8');
+            //create a Request Object
+            let req = new Request(url, {
+                headers: headers,
+                method: 'POST',
+                mode: 'cors',
+                credentials: 'include',
+                body: jsonData
+            });
+            //body is the data that goes to the API
+            //now do the fetch
+            fetch(req)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Guess what. It is not ok. ' + response.status + ' ' + response.statusText);
+                    } else {
+                        document.getElementById('output').textContent =
+                            'Hey we got a response from the server! They LOVED our token.';
+                    }
+                })
+                .catch(err => {
+                    //there will be an error because this is not a valid URL
+                    console.error(err.code + ': ' + err.message);
+                })
+        }
+    </script>
+</body>
+
+</html>
