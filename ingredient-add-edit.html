@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Pizza Shop</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous" />
+    <!-- your CSS file link goes HERE -->
+    <link rel="stylesheet" href="css/main.css" />
+</head>
+
+<body>
+    <main>
+        <nav class="navbar navbar-expand navbar-dark">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="pizza.html">Pizza</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="ingredient-list.html">Ingredient<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="order.html">Order</a>
+                </li>
+            </ul>
+        </nav>
+
+        <header>
+            <h2 class="hd-title">Ingredient</h2>
+        </header>
+
+        <div class="container">
+            <form class="form-add-edit">
+                <div class="form-group">
+                    <div class="col-10 mx-4 mt-3">
+                        <label for="name">Name</label>
+                    </div>
+                    <div class="col-10 mx-4">
+                        <input type="text" class="form-control" id="name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-5 mx-4 mt-3">
+                        <label for="price">Price</label>
+                    </div>
+
+                    <div class="col-5 mx-4">
+                        <input type="number" class="form-control" id="price">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-5 mx-4 mt-3">
+                        <label for="quantity">Quantity</label>
+                    </div>
+
+                    <div class="col-3 mx-4">
+                        <input type="number" class="form-control" id="quantity">
+                    </div>
+                </div>
+                <fieldset class="form-group">
+                    <legend class="col-form-label col-6 mx-4">Gluten Free</legend>
+                    <div class="col-sm-10">
+                        <div class="form-check form-check-inline mx-4">
+                            <input class="form-check-input" type="radio" name="gridRadios" id="yes-glutenfree" value="yes" checked>
+                            <label class="form-check-label radio-inline" for="yes-glutenfree">Yes</label>
+                            <input class="form-check-input ml-5" type="radio" name="gridRadios" id="no-glutenfree" value="no">
+                            <label class="form-check-label radio-inline" for="no-glutenfree">No</label>
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="form-group">
+                    <div class="col-5 mx-4 mt-3">
+                        <label for="url">Image URL:</label>
+                    </div>
+                    <div class="col-10 mx-4">
+                        <input type="url" class="form-control" name="url" id="url" placeholder="https://example.com" pattern="https://.*" size="30" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <legend class="col-form-label col-6 mx-4">Category</legend>
+                    <div class="form-check">
+                        <div class="form-check-inline col-8 mx-4">
+                            <input class="form-check-input" type="checkbox" id="meat" value="meat">
+                            <label class="form-check-label col-5" for="meat">Meat</label>
+                            <input class="form-check-input ml-5" type="checkbox" id="halal" value="halal">
+                            <label class="form-check-label col-5" for="halal">Halal</label>
+                        </div>
+                    </div>
+                    <div class="form-check">
+                        <div class="form-check-inline col-8 mx-4">
+                            <input class="form-check-input" type="checkbox" id="spicy" value="spicy">
+                            <label class="form-check-label col-5" for="spicy">Spicy</label>
+                            <input class="form-check-input ml-5" type="checkbox" id="halal" value="halal">
+                            <label class="form-check-label col-5" for="halal">Kosher</label>
+                        </div>
+                    </div>
+                    <div class="form-check">
+                        <div class="form-check-inline col-8 mx-4">
+                            <input class="form-check-input" type="checkbox" id="spicy" value="spicy">
+                            <label class="form-check-label col-5" for="spicy">Vegetarian</label>
+                            <input class="form-check-input ml-5" type="checkbox" id="halal" value="halal">
+                            <label class="form-check-label col-5" for="halal">Cheeze</label>
+                        </div>
+                    </div>
+                    <div class="form-check">
+                        <div class="form-check-inline col-8 mx-4">
+                            <input class="form-check-input" type="checkbox" id="spicy" value="spicy">
+                            <label class="form-check-label col-5" for="spicy">Vegan</label>
+                            <input class="form-check-input ml-5" type="checkbox" id="halal" value="halal">
+                            <label class="form-check-label col-5" for="halal">Seasonings</label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-5 mx-auto my-4">
+                            <button type="submit" class="btn btn-dark btn-block">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
