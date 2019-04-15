@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css?family=Merriweather|Montserrat');
+
+:root {
+    --dkred: #8C1B03;
+    --lggrey: #D3D3D3;
+    --dkbrown: #3C2616;
+    --brown: #523418;
+    --lvbrown: #B68646;
+    --beige: #F6C887;
+    --lgbeige: #FCEEDB;
+    --goben: #746A46;
+    --black: #000000;
+    --white: #ffffff;
+    --FS1: 5.063rem;
+    --FS2: 3.375rem;
+    --FS3: 2.25rem;
+    --FS4: 1.5rem;
+    --FS5: 1rem;
+    --FSSmall: 0.667rem;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+*::after,
+*::before{
+    box-sizing: inherit;
+}
+body{
+    overflow-x: hidden;
+}
+html {
+    font-family: Montserrat, Helvetica, Arial, sans-serif;
+    font-size: var(--FS5);
+    line-height: 1.5rem;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h3{
+    font-family: Merriweather, Cambria, "Times New Roman", serif;
+}
+
+.h3{
+    color: var(--dkred);
+    font-weight: 900;
+}
+
+header{
+    width: 100%;
+    min-height: 40vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url("../img/thomas-schweighofer-51101-unsplash-blur.jpg");
+    background-position: center;
+    margin-bottom: 1rem;
+    background-color: beige;
+}
+header .hd-title{
+    color: var(--dkred);
+    padding-top: 17rem;
+    padding-left: 2.5rem;
+    text-shadow: 3px 3px var(--lggrey);
+    overflow: visible;
+}
+.navbar{
+    background-color: var(--dkred);
+}
+.container{
+    width: 80vw;
+    margin: 0 auto;
+    padding: 0;
+}
+.form-signin{
+    width: 400px;
+    margin: 0 auto;
+    border: 1px solid var(--dkred);
+    margin-top: 2rem;
+}
+.btn-dark,
+.btn-dark:hover{
+    background-color: var(--dkred);
+    border-color: var(--dkred);
+}
+.form-group label,
+    legend{
+    color:  var(--dkred);
+}
+/*Extra small devices (portrait phones, less than 576px)*/
+@media (max-width: 575px){
+    .container{
+        font-size: var(--FS4);
+    }
+    .card {
+        height: 650px;
+    }
+} 
