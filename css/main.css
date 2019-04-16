@@ -117,7 +117,7 @@ header .hd-title{
 #brand {
     height: 100px;
     background-color: #812512;
-    margin:0;
+    margin:0 !important;
     padding: 1rem;
     border-radius:0;
 }
