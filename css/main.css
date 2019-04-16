@@ -1,4 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Merriweather|Montserrat');
+@import url('https://fonts.googleapis.com/css?family=Faster+One|Lobster|Oswald');
+@import url('https://fonts.googleapis.com/css?family=Bungee+Inline|Bungee+Shade|Codystar|Faster+One|Fredericka+the+Great|Lobster|Monoton|Oswald|Pacifico|Raleway+Dots');
+
+
+
 
 :root {
     --dkred: #8C1B03;
@@ -30,6 +35,7 @@
 }
 body{
     overflow-x: hidden;
+    background-color: #333;
 }
 html {
     font-family: Montserrat, Helvetica, Arial, sans-serif;
@@ -70,6 +76,7 @@ header .hd-title{
 }
 .navbar{
     background-color: var(--dkred);
+    font-weight: 700;
 }
 .container{
     width: 80vw;
@@ -100,3 +107,44 @@ header .hd-title{
         height: 650px;
     }
 } 
+
+#pizza-list {
+    display: flex;
+    margin: 40px auto;
+    width: 100%;
+}
+
+#brand {
+    height: 100px;
+    background-color: #812512;
+    margin:0;
+    padding: 1rem;
+    border-radius:0;
+}
+
+#brand h1{
+/*    font-family: 'Fredericka the Great', Helvetica, Arial, cursive;*/
+    font-family: 'Bungee Shade', Helvetica, Arial, cursive;
+    font-size: 50px;
+    height: 100px;
+}
+
+footer {
+    background-color: #812512;
+}
+
+.sign {
+    float: right;
+}
+
+.menu {
+/*    background-color: #812512;*/
+    background-color: <--dkred>;
+    color: rgba(255,255,255,.5);
+    margin: 0 !important;
+}
+
+/*
+font-family: 'Lobster', cursive;
+font-family: 'Faster One', cursive;
+font-family: 'Oswald', sans-serif;*/
