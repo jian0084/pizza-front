@@ -104,6 +104,12 @@ header .hd-title {
     border-color: var(--dkred);
 }
 
+form {
+    margin-top: 3rem;
+    padding: 3rem;
+    background-color: white;
+}
+
 .form-group label,
 legend {
     color: var(--dkred);
@@ -158,12 +164,12 @@ footer {
 
 .cards {
     background-color: #F5F5F6;
-/*    background-color: #d7ccc8;*/
+    /*    background-color: #d7ccc8;*/
     margin-bottom: 1rem !important;
 }
 
 .buttons {
-/*    display: block;*/
+    /*    display: block;*/
     width: 100%;
 }
 
@@ -175,8 +181,16 @@ footer {
     transition: all 0.5s;
     cursor: pointer;
 }
+
 .button:hover {
     background-color: #6d4c41;
+}
+
+.button-edit {
+    width: 160px;
+    margin: 0 2rem;
+    transition: all 0.5s;
+    cursor: pointer;
 }
 
 .card-img-top {
@@ -194,7 +208,7 @@ footer {
 }
 
 #non-home {
-/*    background-color: #E1E2E1;*/
+    /*    background-color: #E1E2E1;*/
 }
 
 /*
