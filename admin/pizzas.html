@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Pizza Shop</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous" />
+    <!-- Add icon library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- your CSS file link goes HERE -->
+    <link rel="stylesheet" href="css/main.css" />
+</head>
+
+<body id="non-home">
+    <main>
+        <div id="brand" class="d-flex justify-content-center mb-3">
+            <div class="p-2">
+                <img style="display: inline-block" src="/img/basil.png" width="80px" alt="">
+            </div>
+            <div class="p-2">
+                <h1 class="text-white" align="center" style="display: inline-block">MAD PIZZA</h1>
+            </div>
+        </div>
+        <div class="menu d-flex mb-3 navbar">
+            <div class="p-2 nav-item">
+                <a class="menu nav-link" href="index.html">HOME<span class="sr-only">(current)</span></a>
+            </div>
+            <div class="p-2 nav-item">
+                <a class="menu nav-link active text-white" href="pizza-list.html">PIZZA</a>
+            </div>
+            <div class="p-2 nav-item">
+                <a class="menu nav-link" href="ingredient-list.html">INGREDIENTS</a>
+            </div>
+            <div class="p-2 nav-item">
+                <a class="menu nav-link" href="order.html">ORDER</a>
+            </div>
+            <div class="p-2 nav-item ml-auto">
+                <a class="menu nav-link sign text-white" href="sign-in.html">SIGN IN</a>
+            </div>
+            <div class="nav-item p-2">
+                <a class="menu nav-link text-white" href="sign-up.html">SIGN UP</a>
+            </div>
+        </div>
+        <div>
+<!--            <button id="add" type="button" class="btn btn-danger btn-lg"><i class="fa fa-plus"></i> Add a Pizza</button>-->
+            <button id="add" class="btn"><i class="fa fa-plus"></i> Add a Pizza</button>
+        </div>
+        <div id="pizza-list" class="card-deck" align="center">
+            <div class="cards card col-lg-3">
+                <img class="card-img-top" src="/img/pizza/BBQ%20Chicken%20Feast.jpg" alt="Pizza image">
+                <div class="card-body">
+                    <h4 class="card-title text-dark" align="center">Pizza1</h4>
+                    <div class="buttons">
+                        <button type="button" class="button btn btn-md"><span>Edit</span></button>
+                        <button type="button" class="button btn btn-md"><span>Delete</span></button>
+                    </div>
+                </div>
+            </div>
+            <div class="cards card col-lg-3">
+                <img class="card-img-top" src="/img/pizza/Brooklyn%20Pizza.jpg" alt="Pizza image">
+                <div class="card-body">
+                    <h4 class="card-title text-dark" align="center">Pizza1</h4>
+                    <div class="buttons">
+                        <button type="button" class="button btn btn-md"><span>Edit</span></button>
+                        <button type="button" class="button btn btn-md"><span>Delete</span></button>
+                    </div>
+                </div>
+            </div>
+            <div class="w-100 d-none d-sm-block d-md-none">
+                <!-- wrap every 2 on sm-->
+            </div>
+            <div class="cards card col-lg-3">
+                <img class="card-img-top" src="/img/pizza/Canadian%20Pizza.jpg" alt="Pizza image">
+                <div class="card-body">
+                    <h4 class="card-title text-dark" align="center">Pizza1</h4>
+                    <div class="buttons">
+                        <button type="button" class="button btn btn-md"><span>Edit</span></button>
+                        <button type="button" class="button btn btn-md"><span>Delete</span></button>
+                    </div>
+                </div>
+            </div>
+            <div class="w-100 d-none d-md-block d-lg-none">
+                <!-- wrap every 3 on md-->
+            </div>
+            <div class="cards card col-lg-3">
+                <img class="card-img-top" src="/img/pizza/Hawaiian.jpg" alt="Pizza image">
+                <div class="card-body">
+                    <h4 class="card-title text-dark" align="center">Pizza1</h4>
+                    <div class="buttons">
+                        <button type="button" class="button btn btn-md"><span>Edit</span></button>
+                        <button type="button" class="button btn btn-md"><span>Delete</span></button>
+                    </div>
+                </div>
+            </div>
+            <div class="w-100 d-none d-sm-block d-md-none">
+                <!-- wrap every 2 on sm-->
+            </div>
+            <div class="w-100 d-none d-lg-block d-lg-none">
+                <!-- wrap every 4 on lg-->
+            </div>
+            <div class="cards card col-lg-3">
+                <img class="card-img-top" src="/img/pizza/Deluxe.jpg" alt="Pizza image">
+                <div class="card-body">
+                    <h4 class="card-title text-dark" align="center">Pizza1</h4>
+                    <div class="buttons">
+                        <button type="button" class="button btn btn-md"><span>Edit</span></button>
+                        <button type="button" class="button btn btn-md"><span>Delete</span></button>
+                    </div>
+                </div>
+            </div>
+            <div class="cards card col-lg-3">
+                <img class="card-img-top" src="/img/pizza/ExtravaganZZa.jpg" alt="Pizza image">
+                <div class="card-body">
+                    <h4 class="card-title text-dark" align="center">Pizza1</h4>
+                    <div class="buttons">
+                        <button type="button" class="button btn btn-md"><span>Edit</span></button>
+                        <button type="button" class="button btn btn-md"><span>Delete</span></button>
+                    </div>
+                </div>
+            </div>
+            <div class="w-100 d-none d-sm-block d-md-none">
+                <!-- wrap every 2 on sm-->
+            </div>
+            <div class="w-100 d-none d-md-block d-lg-none">
+                <!-- wrap every 3 on md-->
+            </div>
+            <div class="cards card col-lg-3">
+                <img class="card-img-top" src="/img/pizza/Chicken%20Bacon%20Alfredo%20Pizza.jpg" alt="Pizza image">
+                <div class="card-body">
+                    <h4 class="card-title text-dark" align="center">Pizza1</h4>
+                    <div class="buttons">
+                        <button type="button" class="button btn btn-md"><span>Edit</span></button>
+                        <button type="button" class="button btn btn-md"><span>Delete</span></button>
+                    </div>
+                </div>
+            </div>
+            <div class="cards card col-lg-3">
+                <img class="card-img-top" src="/img/pizza/Pacific%20Veggie%20Pizza.jpg" alt="Pizza image">
+                <div class="card-body">
+                    <h4 class="card-title text-dark" align="center">Pizza1</h4>
+                    <div class="buttons">
+                        <button type="button" class="button btn btn-md"><span>Edit</span></button>
+                        <button type="button" class="button btn btn-md"><span>Delete</span></button>
+                    </div>
+                </div>
+            </div>
+            <div class="w-100 d-none d-sm-block d-md-none">
+                <!-- wrap every 2 on sm-->
+            </div>
+            <div class="w-100 d-none d-lg-block d-lg-none">
+                <!-- wrap every 4 on lg-->
+            </div>
+            <div class="cards card col-lg-3">
+                <img class="card-img-top" src="/img/pizza/Philly%20Steak.jpg" alt="Pizza image">
+                <div class="card-body">
+                    <h4 class="card-title text-dark" align="center">Pizza1</h4>
+                    <div class="buttons">
+                        <button type="button" class="button btn btn-md"><span>Edit</span></button>
+                        <button type="button" class="button btn btn-md"><span>Delete</span></button>
+                    </div>
+                </div>
+            </div>
+            <div class="w-100 d-none d-md-block d-lg-none">
+                <!-- wrap every 3 on md-->
+            </div>
+            <div class="cards card col-lg-3">
+                <img class="card-img-top" src="/img/pizza/Spinach%20and%20Feta%20Pizza.jpg" alt="Pizza image">
+                <div class="card-body">
+                    <h4 class="card-title text-dark" align="center">Pizza1</h4>
+                    <div class="buttons">
+                        <button type="button" class="button btn btn-md"><span>Edit</span></button>
+                        <button type="button" class="button btn btn-md"><span>Delete</span></button>
+                    </div>
+                </div>
+            </div>
+            <div class="w-100 d-none d-sm-block d-md-none">
+                <!-- wrap every 2 on sm-->
+            </div>
+        </div>
+
+
+
+    </main>
+
+    <script type="text/javascript" src="js/main.js"></script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+
+</html>

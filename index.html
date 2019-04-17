@@ -11,70 +11,84 @@
 
 <body>
     <main>
-        <nav class="navbar navbar-expand navbar-dark">
-            <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="index.html">Home<span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="pizza.html">Pizza</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="ingredient-list.html">Ingredient</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="order.html">Order</a>
-                </li>
-                <li class="nav-item" style="float:right">
-                    <a class="nav-link" href="sign-in.html">Sign In</a>
-                </li>
-                <li class="nav-item" style="float:right">
-                    <a class="nav-link" href="sign-up.html">Sign Up</a>
-                </li>
+        <div id="brand" class="d-flex justify-content-center mb-3">
+            <div class="p-2">
+                <img style="display: inline-block" src="/img/basil.png" width="80px" alt="">
+            </div>
+            <div class="p-2">
+                <h1 class="text-white" align="center" style="display: inline-block">MADD PIZZA</h1>
+            </div>
+        </div>
+        <div class="menu d-flex mb-3 navbar">
+            <div class="p-2 nav-item active">
+                <a class="menu nav-link text-white" href="index.html">HOME<span class="sr-only">(current)</span></a>
+            </div>
+            <div class="p-2 nav-item">
+                <a class="menu nav-link" href="pizza-list.html">PIZZA</a>
+            </div>
+            <div class="p-2 nav-item">
+                <a class="menu nav-link" href="ingredient-list.html">INGREDIENTS</a>
+            </div>
+            <div class="p-2 nav-item">
+                <a class="menu nav-link" href="order.html">ORDER</a>
+            </div>
+            <div class="p-2 nav-item ml-auto">
+                <a class="menu nav-link sign text-white" href="sign-in.html">SIGN IN</a>
+            </div>
+            <div class="nav-item p-2">
+                <a class="menu nav-link text-white" href="sign-up.html">SIGN UP</a>
+            </div>
+        </div>
+
+
+
+        <div id="demo" class="carousel slide" data-ride="carousel">
+
+            <!-- Indicators -->
+            <ul class="carousel-indicators">
+                <li data-target="#demo" data-slide-to="0" class="active"></li>
+                <li data-target="#demo" data-slide-to="1"></li>
+                <li data-target="#demo" data-slide-to="2"></li>
             </ul>
-        </nav>
 
-        <header>
-            <h1 class="hd-title">Pizza Shop</h1>
-        </header>
+            <!-- The slideshow -->
+            <div class="carousel-inner" align="center">
+                <div class="carousel-item active">
+                    <!--Photo by ivan Torres on Unsplash-->
+                    <img src="/img/ivan-torres-478678-unsplash.jpg" alt="sheri silver" width="70%">
+                </div>
+                <div class="carousel-item">
+                    <!--       Photo by LUM3N on Unsplash-->
+                    <img src="/img/lum3n-352940-unsplash.jpg" alt="sheri silver" width="70%">
+                </div>
+                <div class="carousel-item">
+                    <!--       Photo by Patrick Fore on Unsplash-->
+                    <img src="/img/patrick-fore-361308-unsplash.jpg" alt="sheri silver" width="70%">
+                </div>
+            </div>
 
-        <div class="container">
-            <form class="form-signin">
-                <div class="form-group">
-                    <div class="col-6 mx-4 mt-3">
-                        <label for="email">Email address</label>
-                    </div>
-                    <div class="col-10 mx-4">
-                        <input type="email" class="form-control" id="email" placeholder="name@example.com">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-6 mx-4 mt-3">
-                        <label for="password">Password</label>
-                    </div>
+            <!-- Left and right controls -->
+            <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </a>
+            <a class="carousel-control-next" href="#demo" data-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </a>
 
-                    <div class="col-10 mx-4">
-                        <input type="password" class="form-control" id="password" placeholder="Enter your Password">
-                    </div>
-                </div>
-                <div class="form-group form-check">
-                    <div class="col-10 mx-4 mt-4">
-                        <input type="checkbox" class="form-check-input" id="show-password">
-                        <label class="form-check-label" for="show-password">Show password</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-10 mx-auto my-4">
-                        <button type="submit" class="btn btn-dark btn-block">Sign in</button>
-                    </div>
-                </div>
-            </form>
         </div>
     </main>
+    <footer class="page-footer font-small pt-4">
+        <div id="footer" class="footer-copyright text-center text-light py-3">© 2019 Copyright:
+            <a href="https://github.com/jian0084/pizza-front" class="text-light"> Celina & Joyce</a>
+        </div>
+    </footer>
+
+    <script type="text/javascript" src="js/main.js"></script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    <script src="js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 
 </html>

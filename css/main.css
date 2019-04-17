@@ -29,35 +29,39 @@
     margin: 0;
     box-sizing: border-box;
 }
+
 *::after,
-*::before{
+*::before {
     box-sizing: inherit;
 }
-body{
+
+body {
     overflow-x: hidden;
     background-color: #333;
 }
+
 html {
     font-family: Montserrat, Helvetica, Arial, sans-serif;
     font-size: var(--FS5);
     line-height: 1.5rem;
 }
+
 h1,
 h2,
 h3,
 h4,
 h5,
 h6,
-.h3{
+.h3 {
     font-family: Merriweather, Cambria, "Times New Roman", serif;
 }
 
-.h3{
+.h3 {
     color: var(--dkred);
     font-weight: 900;
 }
 
-header{
+header {
     width: 100%;
     min-height: 40vh;
     background-size: cover;
@@ -67,46 +71,54 @@ header{
     margin-bottom: 1rem;
     background-color: beige;
 }
-header .hd-title{
+
+header .hd-title {
     color: var(--dkred);
     padding-top: 17rem;
     padding-left: 2.5rem;
     text-shadow: 3px 3px var(--lggrey);
     overflow: visible;
 }
-.navbar{
+
+.navbar {
     background-color: var(--dkred);
     font-weight: 700;
 }
-.container{
+
+.container {
     width: 80vw;
     margin: 0 auto;
     padding: 0;
 }
-.form-signin{
+
+.form-signin {
     width: 400px;
     margin: 0 auto;
     border: 1px solid var(--dkred);
     margin-top: 2rem;
 }
+
 .btn-dark,
-.btn-dark:hover{
+.btn-dark:hover {
     background-color: var(--dkred);
     border-color: var(--dkred);
 }
+
 .form-group label,
-    legend{
-    color:  var(--dkred);
+legend {
+    color: var(--dkred);
 }
+
 /*Extra small devices (portrait phones, less than 576px)*/
-@media (max-width: 575px){
-    .container{
+@media (max-width: 575px) {
+    .container {
         font-size: var(--FS4);
     }
+
     .card {
         height: 650px;
     }
-} 
+}
 
 #pizza-list {
     display: flex;
@@ -116,32 +128,73 @@ header .hd-title{
 
 #brand {
     height: 100px;
-    background-color: #812512;
-    margin:0 !important;
+    /*    background-color: #812512;*/
+    background-color: #7f0000;
+    margin: 0 !important;
     padding: 1rem;
-    border-radius:0;
+    border-radius: 0;
 }
 
-#brand h1{
-/*    font-family: 'Fredericka the Great', Helvetica, Arial, cursive;*/
+#brand h1 {
+    /*    font-family: 'Fredericka the Great', Helvetica, Arial, cursive;*/
     font-family: 'Bungee Shade', Helvetica, Arial, cursive;
     font-size: 50px;
     height: 100px;
 }
 
 footer {
-    background-color: #812512;
-}
-
-.sign {
-    float: right;
+    background-color: #7f0000;
 }
 
 .menu {
-/*    background-color: #812512;*/
-    background-color: <--dkred>;
-    color: rgba(255,255,255,.5);
+    background-color: #8e0000;
+    color: rgba(255, 255, 255, .5);
     margin: 0 !important;
+}
+
+.menu:hover {
+    color: #fff;
+}
+
+.cards {
+    background-color: #F5F5F6;
+/*    background-color: #d7ccc8;*/
+    margin-bottom: 1rem !important;
+}
+
+.buttons {
+/*    display: block;*/
+    width: 100%;
+}
+
+.button {
+    width: 100px;
+    margin: 1rem 0.5rem 0.5rem 0.5rem;
+    background-color: #9c786c;
+    color: white;
+    transition: all 0.5s;
+    cursor: pointer;
+}
+.button:hover {
+    background-color: #6d4c41;
+}
+
+.card-img-top {
+    margin-top: 1rem;
+}
+
+.card-body {
+    padding: 1rem;
+}
+
+#add {
+    margin-top: 2rem;
+    margin-left: 1rem;
+    font-size: 1rem;
+}
+
+#non-home {
+/*    background-color: #E1E2E1;*/
 }
 
 /*
