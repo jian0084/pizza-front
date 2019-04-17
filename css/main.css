@@ -86,7 +86,7 @@ header .hd-title{
 .form-signin{
     width: 400px;
     margin: 0 auto;
-    border: 1px solid var(--dkred);
+    border: 1px solid var(--white);
     margin-top: 2rem;
 }
 .btn-dark,
@@ -96,7 +96,7 @@ header .hd-title{
 }
 .form-group label,
     legend{
-    color:  var(--dkred);
+    color:  var(--white);
 }
 /*Extra small devices (portrait phones, less than 576px)*/
 @media (max-width: 575px){
