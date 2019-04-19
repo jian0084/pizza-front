@@ -11,176 +11,276 @@
     <link rel="stylesheet" href="/css/main.css" />
 </head>
 
-<body id="non-home">
+<body>
     <main>
-        <div id="brand" class="d-flex justify-content-center mb-3">
-            <div class="p-2">
-                <img style="display: inline-block" src="/img/basil.png" width="80px" alt="">
-            </div>
-            <div class="p-2">
-                <h1 class="text-white" align="center" style="display: inline-block">MADD PIZZA</h1>
-            </div>
-        </div>
-        <div class="menu d-flex mb-3 navbar">
-            <div class="p-2 nav-item">
-                <a class="menu nav-link" href="../index.html">HOME<span class="sr-only">(current)</span></a>
-            </div>
-            <div class="p-2 nav-item">
-                <a class="menu nav-link active text-white" href="pizzas.html">PIZZA</a>
-            </div>
-            <div class="p-2 nav-item">
-                <a class="menu nav-link" href="ingredients.html">INGREDIENTS</a>
-            </div>
-            <div class="p-2 nav-item">
-                <a class="menu nav-link" href="order.html">ORDER</a>
-            </div>
-            <div class="p-2 nav-item ml-auto">
-                <a class="menu nav-link sign text-white" href="signin.html">SIGN IN</a>
-            </div>
-            <div class="nav-item p-2">
-                <a class="menu nav-link text-white" href="../register.html">SIGN UP</a>
-            </div>
-        </div>
-        <div>
-<!--            <button id="add" type="button" class="btn btn-danger btn-lg"><i class="fa fa-plus"></i> Add a Pizza</button>-->
-            <button id="add" class="btn"><i class="fa fa-plus"></i> Add a Pizza</button>
-        </div>
-        <div id="pizza-list" class="card-deck" align="center">
-            <div class="cards card col-lg-3">
-                <img class="card-img-top" src="/img/pizza/BBQ%20Chicken%20Feast.jpg" alt="Pizza image">
-                <div class="card-body">
-                    <h4 class="card-title text-dark" align="center">Pizza1</h4>
-                    <div class="buttons">
-                        <button type="button" class="button btn btn-md"><span>Edit</span></button>
-                        <button type="button" class="button btn btn-md"><span>Delete</span></button>
-                    </div>
+        <div id="top">
+            <div id="brand" class="d-flex justify-content-center mb-3">
+                <div class="p-2">
+                    <img style="display: inline-block" src="/img/basil.png" width="80px" alt="">
+                </div>
+                <div class="p-2">
+                    <h1 class="text-white" align="center" style="display: inline-block">MADD PIZZA</h1>
                 </div>
             </div>
-            <div class="cards card col-lg-3">
-                <img class="card-img-top" src="/img/pizza/Brooklyn%20Pizza.jpg" alt="Pizza image">
-                <div class="card-body">
-                    <h4 class="card-title text-dark" align="center">Pizza1</h4>
-                    <div class="buttons">
-                        <button type="button" class="button btn btn-md"><span>Edit</span></button>
-                        <button type="button" class="button btn btn-md"><span>Delete</span></button>
-                    </div>
+            <div class="menu d-flex mb-3 navbar">
+                <div class="p-2 nav-item">
+                    <a class="menu nav-link" href="../index.html">HOME<span class="sr-only">(current)</span></a>
                 </div>
-            </div>
-            <div class="w-100 d-none d-sm-block d-md-none">
-                <!-- wrap every 2 on sm-->
-            </div>
-            <div class="cards card col-lg-3">
-                <img class="card-img-top" src="/img/pizza/Canadian%20Pizza.jpg" alt="Pizza image">
-                <div class="card-body">
-                    <h4 class="card-title text-dark" align="center">Pizza1</h4>
-                    <div class="buttons">
-                        <button type="button" class="button btn btn-md"><span>Edit</span></button>
-                        <button type="button" class="button btn btn-md"><span>Delete</span></button>
-                    </div>
+                <div class="p-2 nav-item">
+                    <a class="menu nav-link active text-white" href="pizzas.html">PIZZA</a>
                 </div>
-            </div>
-            <div class="w-100 d-none d-md-block d-lg-none">
-                <!-- wrap every 3 on md-->
-            </div>
-            <div class="cards card col-lg-3">
-                <img class="card-img-top" src="/img/pizza/Hawaiian.jpg" alt="Pizza image">
-                <div class="card-body">
-                    <h4 class="card-title text-dark" align="center">Pizza1</h4>
-                    <div class="buttons">
-                        <button type="button" class="button btn btn-md"><span>Edit</span></button>
-                        <button type="button" class="button btn btn-md"><span>Delete</span></button>
-                    </div>
+                <div class="p-2 nav-item">
+                    <a class="menu nav-link" href="ingredients.html">INGREDIENTS</a>
                 </div>
-            </div>
-            <div class="w-100 d-none d-sm-block d-md-none">
-                <!-- wrap every 2 on sm-->
-            </div>
-            <div class="w-100 d-none d-lg-block d-lg-none">
-                <!-- wrap every 4 on lg-->
-            </div>
-            <div class="cards card col-lg-3">
-                <img class="card-img-top" src="/img/pizza/Deluxe.jpg" alt="Pizza image">
-                <div class="card-body">
-                    <h4 class="card-title text-dark" align="center">Pizza1</h4>
-                    <div class="buttons">
-                        <button type="button" class="button btn btn-md"><span>Edit</span></button>
-                        <button type="button" class="button btn btn-md"><span>Delete</span></button>
-                    </div>
+                <div class="p-2 nav-item hide">
+                    <a class="menu nav-link" href="order.html">ORDER</a>
                 </div>
-            </div>
-            <div class="cards card col-lg-3">
-                <img class="card-img-top" src="/img/pizza/ExtravaganZZa.jpg" alt="Pizza image">
-                <div class="card-body">
-                    <h4 class="card-title text-dark" align="center">Pizza1</h4>
-                    <div class="buttons">
-                        <button type="button" class="button btn btn-md"><span>Edit</span></button>
-                        <button type="button" class="button btn btn-md"><span>Delete</span></button>
-                    </div>
+                <div class="p-2 nav-item ml-auto">
+                    <a class="menu nav-link" href="../sign-in.html">SIGN IN</a>
                 </div>
-            </div>
-            <div class="w-100 d-none d-sm-block d-md-none">
-                <!-- wrap every 2 on sm-->
-            </div>
-            <div class="w-100 d-none d-md-block d-lg-none">
-                <!-- wrap every 3 on md-->
-            </div>
-            <div class="cards card col-lg-3">
-                <img class="card-img-top" src="/img/pizza/Chicken%20Bacon%20Alfredo%20Pizza.jpg" alt="Pizza image">
-                <div class="card-body">
-                    <h4 class="card-title text-dark" align="center">Pizza1</h4>
-                    <div class="buttons">
-                        <button type="button" class="button btn btn-md"><span>Edit</span></button>
-                        <button type="button" class="button btn btn-md"><span>Delete</span></button>
-                    </div>
+                <div class="nav-item p-2">
+                    <a class="menu nav-link" href="../register.html">SIGN UP</a>
                 </div>
-            </div>
-            <div class="cards card col-lg-3">
-                <img class="card-img-top" src="/img/pizza/Pacific%20Veggie%20Pizza.jpg" alt="Pizza image">
-                <div class="card-body">
-                    <h4 class="card-title text-dark" align="center">Pizza1</h4>
-                    <div class="buttons">
-                        <button type="button" class="button btn btn-md"><span>Edit</span></button>
-                        <button type="button" class="button btn btn-md"><span>Delete</span></button>
-                    </div>
+                <div class="nav-item p-2 ml-auto hide">
+                    <a class="menu nav-link" href="profile.html">ME</a>
                 </div>
-            </div>
-            <div class="w-100 d-none d-sm-block d-md-none">
-                <!-- wrap every 2 on sm-->
-            </div>
-            <div class="w-100 d-none d-lg-block d-lg-none">
-                <!-- wrap every 4 on lg-->
-            </div>
-            <div class="cards card col-lg-3">
-                <img class="card-img-top" src="/img/pizza/Philly%20Steak.jpg" alt="Pizza image">
-                <div class="card-body">
-                    <h4 class="card-title text-dark" align="center">Pizza1</h4>
-                    <div class="buttons">
-                        <button type="button" class="button btn btn-md"><span>Edit</span></button>
-                        <button type="button" class="button btn btn-md"><span>Delete</span></button>
-                    </div>
+                <div class="nav-item p-2 hide">
+                    <a class="menu nav-link" href="#">SIGN OUT</a>
                 </div>
-            </div>
-            <div class="w-100 d-none d-md-block d-lg-none">
-                <!-- wrap every 3 on md-->
-            </div>
-            <div class="cards card col-lg-3">
-                <img class="card-img-top" src="/img/pizza/Spinach%20and%20Feta%20Pizza.jpg" alt="Pizza image">
-                <div class="card-body">
-                    <h4 class="card-title text-dark" align="center">Pizza1</h4>
-                    <div class="buttons">
-                        <button type="button" class="button btn btn-md"><span>Edit</span></button>
-                        <button type="button" class="button btn btn-md"><span>Delete</span></button>
-                    </div>
-                </div>
-            </div>
-            <div class="w-100 d-none d-sm-block d-md-none">
-                <!-- wrap every 2 on sm-->
             </div>
         </div>
 
 
+        <div class="container">
+            <div>
+                <button id="add" class="btn"><i class="fa fa-plus"></i> ADD A PIZZA</button>
+            </div>
+            <div class="table-responsive table-hover">
+                <table class="table">
+                    <thead class="grey white-text">
+                        <tr>
+                            <th scope="row">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="tableDefaultCheck1">
+                                    <label class="custom-control-label" for="tableDefaultCheck1">#</label>
+                                </div>
+                            </th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Size</th>
+                            <th scope="col">Gluten Free</th>
+                            <th scope="col">Operation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="tableDefaultCheck2">
+                                    <label class="custom-control-label" for="tableDefaultCheck2">1</label>
+                                </div>
+                            </td>
+                            <td>Canadian</td>
+                            <td>15.5</td>
+                            <td>Large</td>
+                            <td>Yes</td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-rounded btn-sm m-0">EDIT</button>
+                                <button type="button" class="btn btn-danger btn-rounded btn-sm m-0">DELETE</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="tableDefaultCheck2">
+                                    <label class="custom-control-label" for="tableDefaultCheck2">1</label>
+                                </div>
+                            </td>
+                            <td>Canadian</td>
+                            <td>15.5</td>
+                            <td>Large</td>
+                            <td>Yes</td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-rounded btn-sm m-0">EDIT</button>
+                                <button type="button" class="btn btn-danger btn-rounded btn-sm m-0">DELETE</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="tableDefaultCheck2">
+                                    <label class="custom-control-label" for="tableDefaultCheck2">1</label>
+                                </div>
+                            </td>
+                            <td>Canadian</td>
+                            <td>15.5</td>
+                            <td>Large</td>
+                            <td>Yes</td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-rounded btn-sm m-0">EDIT</button>
+                                <button type="button" class="btn btn-danger btn-rounded btn-sm m-0">DELETE</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="tableDefaultCheck2">
+                                    <label class="custom-control-label" for="tableDefaultCheck2">1</label>
+                                </div>
+                            </td>
+                            <td>Canadian</td>
+                            <td>15.5</td>
+                            <td>Large</td>
+                            <td>Yes</td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-rounded btn-sm m-0">EDIT</button>
+                                <button type="button" class="btn btn-danger btn-rounded btn-sm m-0">DELETE</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="tableDefaultCheck2">
+                                    <label class="custom-control-label" for="tableDefaultCheck2">1</label>
+                                </div>
+                            </td>
+                            <td>Canadian</td>
+                            <td>15.5</td>
+                            <td>Large</td>
+                            <td>Yes</td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-rounded btn-sm m-0">EDIT</button>
+                                <button type="button" class="btn btn-danger btn-rounded btn-sm m-0">DELETE</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="tableDefaultCheck2">
+                                    <label class="custom-control-label" for="tableDefaultCheck2">1</label>
+                                </div>
+                            </td>
+                            <td>Canadian</td>
+                            <td>15.5</td>
+                            <td>Large</td>
+                            <td>Yes</td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-rounded btn-sm m-0">EDIT</button>
+                                <button type="button" class="btn btn-danger btn-rounded btn-sm m-0">DELETE</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="tableDefaultCheck2">
+                                    <label class="custom-control-label" for="tableDefaultCheck2">1</label>
+                                </div>
+                            </td>
+                            <td>Canadian</td>
+                            <td>15.5</td>
+                            <td>Large</td>
+                            <td>Yes</td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-rounded btn-sm m-0">EDIT</button>
+                                <button type="button" class="btn btn-danger btn-rounded btn-sm m-0">DELETE</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="tableDefaultCheck2">
+                                    <label class="custom-control-label" for="tableDefaultCheck2">1</label>
+                                </div>
+                            </td>
+                            <td>Canadian</td>
+                            <td>15.5</td>
+                            <td>Large</td>
+                            <td>Yes</td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-rounded btn-sm m-0">EDIT</button>
+                                <button type="button" class="btn btn-danger btn-rounded btn-sm m-0">DELETE</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="tableDefaultCheck2">
+                                    <label class="custom-control-label" for="tableDefaultCheck2">1</label>
+                                </div>
+                            </td>
+                            <td>Canadian</td>
+                            <td>15.5</td>
+                            <td>Large</td>
+                            <td>Yes</td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-rounded btn-sm m-0">EDIT</button>
+                                <button type="button" class="btn btn-danger btn-rounded btn-sm m-0">DELETE</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="tableDefaultCheck2">
+                                    <label class="custom-control-label" for="tableDefaultCheck2">1</label>
+                                </div>
+                            </td>
+                            <td>Canadian</td>
+                            <td>15.5</td>
+                            <td>Large</td>
+                            <td>Yes</td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-rounded btn-sm m-0">EDIT</button>
+                                <button type="button" class="btn btn-danger btn-rounded btn-sm m-0">DELETE</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="tableDefaultCheck2">
+                                    <label class="custom-control-label" for="tableDefaultCheck2">1</label>
+                                </div>
+                            </td>
+                            <td>Canadian</td>
+                            <td>15.5</td>
+                            <td>Large</td>
+                            <td>Yes</td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-rounded btn-sm m-0">EDIT</button>
+                                <button type="button" class="btn btn-danger btn-rounded btn-sm m-0">DELETE</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="tableDefaultCheck2">
+                                    <label class="custom-control-label" for="tableDefaultCheck2">1</label>
+                                </div>
+                            </td>
+                            <td>Canadian</td>
+                            <td>15.5</td>
+                            <td>Large</td>
+                            <td>Yes</td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-rounded btn-sm m-0">EDIT</button>
+                                <button type="button" class="btn btn-danger btn-rounded btn-sm m-0">DELETE</button>
+                            </td>
+                        </tr>
+
+
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
     </main>
+
+    <footer class="page-footer font-small pt-4">
+        <div id="footer" class="footer-copyright text-center text-light py-3">© 2019 Copyright:
+            <a href="https://github.com/jian0084/pizza-front" class="text-light"> Celina & Joyce</a>
+        </div>
+    </footer>
 
     <script type="text/javascript" src="js/main.js"></script>
     <!-- Optional JavaScript -->
