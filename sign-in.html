@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="css/main.css" />
 </head>
 
-<body>
+<body id="form-sign-in">
     <main>
         <div id="brand" class="d-flex justify-content-center mb-3">
             <div class="p-2">
@@ -50,7 +50,7 @@
 
         <div class="container">
             <form class="form-account">
-                <div class="form-group">
+                <div class="form-group" id="email-input">
                     <div class="col-6 mx-4 mt-3">
                         <label for="email">Email address</label>
                     </div>
@@ -58,7 +58,7 @@
                         <input type="email" class="form-control" id="email" placeholder="name@example.com">
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" id="password-input">
                     <div class="col-6 mx-4 mt-3">
                         <label for="password">Password</label>
                     </div>
@@ -69,13 +69,13 @@
                 </div>
                 <div class="form-group form-check">
                     <div class="col-10 mx-4 mt-4">
-                        <input type="checkbox" class="form-check-input" id="show-password">
-                        <label class="form-check-label" for="show-password">Show password</label>
+                        <input type="checkbox" class="form-check-input" id="signin-show-password">
+                        <label class="form-check-label" for="signin-show-password">Show password</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-10 mx-auto my-4">
-                        <button type="submit" class="btn btn-dark btn-block">Sign in</button>
+                        <button class="btn btn-block btn-signin" id="signin-btn-signin">Sign in</button>
                     </div>
                 </div>
             </form>

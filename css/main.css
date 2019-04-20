@@ -96,8 +96,16 @@ header .hd-title {
     margin-top: 4rem;
 }
 
+/* 
 .btn-dark,
 .btn-dark:hover {
+    background-color: var(--dkred);
+    border-color: var(--dkred);
+} 
+*/
+
+.btn-signin {
+    color: var(--white);
     background-color: var(--dkred);
     border-color: var(--dkred);
 }
@@ -232,5 +240,8 @@ footer {
 
 main {
     min-height: 760px;
+}
+.btn-edit {
+    margin-right: 10px;
 }
 
