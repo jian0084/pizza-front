@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="css/main.css" />
 </head>
 
-<body id="form-sign-in">
+<body id="form-register">
     <main>
         <div id="brand" class="d-flex justify-content-center mb-3">
             <div class="p-2">
@@ -32,17 +32,17 @@
             <div class="p-2 nav-item hide">
                 <a class="menu nav-link" href="order.html">ORDER</a>
             </div>
-            <div class="p-2 nav-item ml-auto">
+            <div class="p-2 nav-item ml-auto" id="nav-sign-in">
                 <a class="menu nav-link active text-white" href="sign-in.html">SIGN IN</a>
             </div>
             <div class="nav-item p-2">
                 <a class="menu nav-link" href="register.html">SIGN UP</a>
             </div>
             <!--            <div class="nav-item p-2 ml-auto">-->
-            <div class="nav-item p-2 hide">
+            <div class="nav-item p-2 hide" id="nav-profile">
                 <a class="menu nav-link" href="profile.html">ME</a>
             </div>
-            <div class="nav-item p-2 hide">
+            <div class="nav-item p-2 hide" id="nav-sign-out">
                 <a class="menu nav-link" href="#">SIGN OUT</a>
             </div>
         </div>
@@ -50,7 +50,23 @@
 
         <div class="container">
             <form class="form-account">
-                <h4 align="center">SIGN IN</h4>
+                <h4 align="center">SIGN UP</h4>
+                <div class="form-group" id="first-name-input">
+                        <div class="col-6 mx-4 mt-3">
+                            <label for="first-name">First Name</label>
+                        </div>
+                        <div class="col-10 mx-4">
+                            <input type="first-name" class="form-control" id="first-name" required>
+                        </div>
+                    </div>
+                    <div class="form-group" id="last-name-input">
+                        <div class="col-6 mx-4 mt-3">
+                            <label for="last-name">Last Name</label>
+                        </div>
+                        <div class="col-10 mx-4">
+                            <input type="last-name" class="form-control" id="last-name" required>
+                        </div>
+                    </div>
                 <div class="form-group" id="email-input">
                     <div class="col-6 mx-4 mt-3">
                         <label for="email">Email address</label>
@@ -74,9 +90,21 @@
                         <label class="form-check-label" for="show-password">Show password</label>
                     </div>
                 </div>
+                <div class="form-group col-md-4" id="isStaff-input">
+                    <div class="col ml-2 mt-3">
+                        <label for="inputIsStaff">User Type</label>
+                    </div>
+                    <div class="col ml-2">
+                        <select id="inputIsStaff" class="form-control">
+                            <option value="" selected>Choose...</option>
+                            <option value="staff">Staff</option>
+                            <option value="customer">Customer</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-sm-10 mx-auto my-4">
-                        <button class="btn btn-block btn-signin" id="signin-btn-signin">Sign in</button>
+                        <button type="button" class="btn btn-rounded btn-signup" id="signup-btn-signup">Create an Account</button>
                     </div>
                 </div>
             </form>

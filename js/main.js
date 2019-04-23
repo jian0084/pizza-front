@@ -10,7 +10,8 @@ Photo by Thomas Schweighofer on Unsplash
 
 /*
 When removeItem from localStorage? Sign out and... when login? When load the homepage?
-Not isStaff users can access list pizzas/ingredients? Review prepareInitialScreen
+Not isStaff users can access list pizzas/ingredients? Review prepareInitialScreen 
+discuss the navbar items after sign in (sign out/sign up/profile) on each screen
 */
 
 let webPizza = {
@@ -28,25 +29,44 @@ let webPizza = {
     addListeners: function(){
         // Add Event Listeners of Sign In page
         let signin = document.getElementById("form-sign-in");
+        let signup = document.getElementById("form-register");
+        let profile = document.getElementById("form-profile");
+        
+        // add event listener for show password (sign in and sign up pages)
+        if (signin !== null || signup !== null || profile !== null) {
+            document.getElementById('show-password').addEventListener('change', webPizza.showPassword);
+        } 
+        
         if (signin !== null) {
             //console.log("Sign-In");
             document.getElementById('signin-btn-signin').addEventListener('click', webPizza.doLogin);
-            document.getElementById('signin-show-password').addEventListener('change', webPizza.showPassword);
         } else {
-            let ingred = document.getElementById("form-ingredients");
-            if (ingred !== null) {
-                console.log("Ingredients");
-                document.getElementById('add').addEventListener('click', webPizza.callDetailScreen);
+            if (signup !== null) {
+                //console.log("Sign-Up");
+                document.getElementById('signup-btn-signup').addEventListener('click', webPizza.registerUser);
             } else {
-                let ingredEdit = document.getElementById("form-ingredient-edit");
-                if (ingredEdit !== null) {
-                    console.log("Add/Edit Ingredients");
-                    document.getElementById('btn-back').addEventListener('click', webPizza.callListScreen);
-                    document.getElementById('btn-save').addEventListener('click', webPizza.saveIngredient);
-                    document.getElementById('price').addEventListener('blur', webPizza.formatCurrency);
+                if(profile !== null) {
+                    console.log('profile');
+                    document.getElementById('btn-change-password').addEventListener('click',webPizza.changePassword);
+                } else {
+                    let ingred = document.getElementById("form-ingredients");
+                    if (ingred !== null) {
+                        //console.log("Ingredients");
+                        document.getElementById('add').addEventListener('click', webPizza.callDetailScreen);
+                    } else {
+                        let ingredEdit = document.getElementById("form-ingredient-edit");
+                        if (ingredEdit !== null) {
+                            //console.log("Add/Edit Ingredients");
+                            document.getElementById('btn-back').addEventListener('click', webPizza.callListScreen);
+                            document.getElementById('btn-save').addEventListener('click', webPizza.saveIngredient);
+                            document.getElementById('price').addEventListener('blur', webPizza.formatCurrency);
+                        }
+                    }
                 }
             }
         }
+        
+        // add event listener for sign out when load other pages
         let signout = document.getElementById("nav-sign-out");
         if (signout !== null){
             //console.log("Sign out");
@@ -75,7 +95,85 @@ let webPizza = {
     callListScreen: function(){
         if (document.getElementById("form-ingredient-edit") !== null) {
             // call ingredient list page
-            location = "/admin/ingredients.html";
+            document.location.href = "/admin/ingredients.html";
+        }
+    },
+    changePassword: function(ev){
+        ev.preventDefault();
+
+        // remove invalid feedback (if exists)
+        webPizza.removeInvalidFeedback();
+        
+        // check if the input fields are valid
+        //let InvalidInput = webPizza.validateSignIn();
+        let InvalidInput = webPizza.validateInputFields();
+
+        // If there's no invalid input, then try to login
+        if (InvalidInput.length === 0) {
+            //define the end point for the request
+            let url = webPizza.BASEURL + "/auth/users/me";
+
+            //prepare the data to send to the server
+            let newPwd = {
+                password: document.getElementById('newPwd').value
+            };
+            let jsonData = JSON.stringify(newPwd);
+            console.log(jsonData);
+
+            //get the token from localStorage
+            let token = JSON.parse(localStorage.getItem(webPizza.KEY));
+            //console.log(token);
+
+            //create a Headers object
+            let headers = new Headers();
+            //append the Authorization header
+            headers.append('Authorization', 'Bearer ' + token);
+            headers.append('Content-Type', 'application/json;charset=UTF-8');
+            //console.log(headers);
+
+            //create a Request Object
+            let req = new Request(url, {
+                headers: headers,
+                method: 'PATCH',
+                mode: 'cors',
+                body: jsonData
+            });
+            fetch(req)
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Error ' + response.status + ' ' + response.statusText);
+                    }
+                })
+                .then(result => {
+                    //console.log("success");
+                    let data = result.data;
+                    //console.log(result.data);
+
+                    // msg success to include
+                    alert("Password changed successfully.");
+
+                    // call sign in page???
+                    // call sign in page
+                    document.location.href = "/sign-in.html";
+                    
+                })
+                .catch(err => {
+                    //there will be an error because this is not a valid URL
+                    console.error(err.code + ': ' + err.message);
+                    alert(err.message);
+                })
+        } else {
+            // display invalid inputs
+            InvalidInput.forEach( obj =>{               
+                let failField = document.getElementById(obj.input);   
+                failField.classList.add("is-invalid");
+                let invalidMsg = document.createElement("div");
+                invalidMsg.textContent = obj.msg;
+                invalidMsg.classList.add("invalid-feedback");
+                failField.parentElement.appendChild(invalidMsg);    
+            })
         }
     },
     deleteIngredient: function(ev){
@@ -124,7 +222,7 @@ let webPizza = {
                     //console.log(result.data);
 
                     // msg success to include
-                    alert(result.data.name + " ingredient was deleted.");
+                    alert(result.data.name + " ingredient was deleted successfully.");
 
                     // update the list of ingredients
                     webPizza.listAllIngredients();
@@ -198,7 +296,7 @@ let webPizza = {
                 // console.log(div1);
         }
     },
-    doLogin: function (ev) {
+    doLogin: function(ev) {
         ev.preventDefault();
 
         //console.log("doLogin");
@@ -244,7 +342,7 @@ let webPizza = {
                         return response.json();
                     } else {
                         console.log(response);
-                        throw new Error('Error ' + response.status + ' ' + response.statusText + ' ' + response.title);
+                        throw new Error('Error ' + response.status + ' ' + response.statusText);
                     }
                 })
                 .then(result => {
@@ -420,6 +518,144 @@ let webPizza = {
                 alert(err.message);
             })
     },
+    loadAnIngredient: function(){
+        // check if it's in add or edit mode
+        let urlParams = new URLSearchParams(document.location.search);
+
+        if(urlParams.has('id')) {
+            // load edit ingredient page
+            let ingredId = urlParams.get('id');
+            console.log(ingredId);
+
+            //define the end point for the request
+            let url = webPizza.BASEURL + "/api/ingredients/" + ingredId;
+
+            //get the token from localStorage
+            let token = JSON.parse(localStorage.getItem(webPizza.KEY));
+            //console.log(token);
+
+            //create a Headers object
+            let headers = new Headers();
+            //append the Authorization header
+            headers.append('Authorization', 'Bearer ' + token);
+            headers.append('Content-Type', 'application/json;charset=UTF-8');
+            //console.log(headers);
+
+            //create a Request Object
+            let req = new Request(url, {
+                headers: headers,
+                method: 'GET',
+                mode: 'cors'
+            });
+
+            // get the data of the ingredient
+            fetch(req)
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Error ' + response.status + ' ' + response.statusText);
+                }
+            })
+            .then(result => {
+                console.log("success");
+                let data = result.data;
+                console.log(result.data);
+
+                // fill out the form
+                document.getElementById("name").value = data.name;
+                document.getElementById("price").value = parseFloat(data.price/100).toFixed(2);
+                document.getElementById('quantity').value = data.quantity;
+                if(data.isGlutenFree === true){
+                    document.getElementById('yes-glutenfree').checked = true;
+                } else {
+                    document.getElementById('no-glutenfree').checked = true;
+                }
+                document.getElementById('url').value = data.imageUrl;
+                console.log(data.categories);
+                data.categories.forEach(item => {
+                    console.log(item);
+                    switch (item) {
+                        case 'meat':
+                            document.getElementById('meat').checked = true;
+                            break;
+                        case 'spicy':
+                            document.getElementById('spicy').checked = true;
+                            break;
+                        case 'vegetarian':
+                            document.getElementById('vegetarian').checked = true;
+                            break;
+                        case 'vegan':
+                            document.getElementById('vegan').checked = true;
+                            break;
+                        case 'halal':
+                            document.getElementById('halal').checked = true;
+                            break;
+                        case 'kosher':
+                            document.getElementById('kosher').checked = true;
+                            break;
+                        case 'cheeze':
+                            document.getElementById('cheeze').checked = true;
+                            break;
+                        case 'seasonings':
+                            document.getElementById('seasonings').checked = true;
+                            break;
+                    }
+                })
+            })
+            .catch(err => {
+                //there will be an error because this is not a valid URL
+                console.error(err.code + ': ' + err.message);
+                alert(err.message);
+            })
+        }
+    },
+    loadProfile: function(){
+        //define the end point for the request
+        let url = webPizza.BASEURL + "	/auth/users/me"
+
+        //get the token from localStorage
+        let token = JSON.parse(localStorage.getItem(webPizza.KEY));
+        //console.log(token);
+
+        //create a Headers object
+        let headers = new Headers();
+        //append the Authorization header
+        headers.append('Authorization', 'Bearer ' + token);
+        headers.append('Content-Type', 'application/json;charset=UTF-8');
+        //console.log(headers);
+
+        //create a Request Object
+        let req = new Request(url, {
+            headers: headers,
+            method: 'GET',
+            mode: 'cors'
+        });
+        // get the data of the ingredient
+        fetch(req)
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Error ' + response.status + ' ' + response.statusText);
+            }
+        })
+        .then(result => {
+            console.log("success");
+            let data = result.data;
+            console.log(result.data);
+
+            // fill out the form
+            document.getElementById("first-name").value = data.firstName;
+            document.getElementById("last-name").value = data.lastName;
+            document.getElementById('email').value = data.email;
+        })
+        .catch(err => {
+            //there will be an error because this is not a valid URL
+            console.error(err.code + ': ' + err.message);
+            alert(err.message);
+        })
+    },
     prepareInitialScreen: function(){
         console.log('prepareInitialScreen');
 
@@ -428,7 +664,13 @@ let webPizza = {
             // reset form fields
             document.querySelector('.form-account').reset();
             document.getElementById('email').focus();
-        };
+        } else {
+            if(document.getElementById("form-register") !== null){
+                // reset form fields
+                document.querySelector('.form-account').reset();
+                document.getElementById('first-name').focus();
+            }
+        }
 
         let token = JSON.parse(localStorage.getItem(webPizza.KEY));
         console.log('token',token);
@@ -447,6 +689,7 @@ let webPizza = {
                     if(token !== null){
                         document.getElementById("nav-sign-in").classList.add("hide");
                         document.getElementById("nav-sign-out").classList.remove("hide");
+                        document.getElementById("nav-profile").classList.remove("hide");
                     }
                     //webPizza.listAllPizzas();
                 } else {
@@ -458,6 +701,7 @@ let webPizza = {
                         if(token !== null){
                             document.getElementById("nav-sign-in").classList.add("hide");
                             document.getElementById("nav-sign-out").classList.remove("hide");
+                            document.getElementById("nav-profile").classList.remove("hide");
                         }
                         webPizza.listAllIngredients();
                     } else {
@@ -469,122 +713,145 @@ let webPizza = {
                             // if(token !== null){
                             //     document.getElementById("nav-sign-in").classList.add("hide");
                             //     document.getElementById("nav-sign-out").classList.remove("hide");
+                            //     document.getElementById("nav-profile").classList.remove("hide");
                             // }
 
                             // reset form fields
                             document.querySelector('.form-add-edit').reset();
-                            
-                            // check if it's in add or edit mode
-                            let urlParams = new URLSearchParams(document.location.search);
 
-                            if(urlParams.has('id')) {
-                                // load edit ingredient page
-                                let ingredId = urlParams.get('id');
-                                console.log(ingredId);
-
-                                //define the end point for the request
-                                let url = webPizza.BASEURL + "/api/ingredients/" + ingredId;
-
-                                //get the token from localStorage
-                                let token = JSON.parse(localStorage.getItem(webPizza.KEY));
-                                //console.log(token);
-
-                                //create a Headers object
-                                let headers = new Headers();
-                                //append the Authorization header
-                                headers.append('Authorization', 'Bearer ' + token);
-                                headers.append('Content-Type', 'application/json;charset=UTF-8');
-                                //console.log(headers);
-
-                                //create a Request Object
-                                let req = new Request(url, {
-                                    headers: headers,
-                                    method: 'GET',
-                                    mode: 'cors'
-                                });
-
-                                //FAZER FETCH DO INGREDIENTE PARA EDIT
-                                // get the data of the ingredient
-                                fetch(req)
-                                .then(response => {
-                                    if (response.ok) {
-                                        return response.json();
-                                    } else {
-                                        throw new Error('Error ' + response.status + ' ' + response.statusText);
-                                    }
-                                })
-                                .then(result => {
-                                    console.log("success");
-                                    let data = result.data;
-                                    console.log(result.data);
-
-                                    // fill out the form
-                                    document.getElementById("name").value = data.name;
-                                    document.getElementById("price").value = parseFloat(data.price/100).toFixed(2);
-                                    document.getElementById('quantity').value = data.quantity;
-                                    if(data.isGlutenFree === true){
-                                        document.getElementById('yes-glutenfree').checked = true;
-                                    } else {
-                                        document.getElementById('no-glutenfree').checked = true;
-                                    }
-                                    document.getElementById('url').value = data.imageUrl;
-                                    console.log(data.categories);
-                                    data.categories.forEach(item => {
-                                        console.log(item);
-                                        switch (item) {
-                                            case 'meat':
-                                                document.getElementById('meat').checked = true;
-                                                break;
-                                            case 'spicy':
-                                                document.getElementById('spicy').checked = true;
-                                                break;
-                                            case 'vegetarian':
-                                                document.getElementById('vegetarian').checked = true;
-                                                break;
-                                            case 'vegan':
-                                                document.getElementById('vegan').checked = true;
-                                                break;
-                                            case 'halal':
-                                                document.getElementById('halal').checked = true;
-                                                break;
-                                            case 'kosher':
-                                                document.getElementById('kosher').checked = true;
-                                                break;
-                                            case 'cheeze':
-                                                document.getElementById('cheeze').checked = true;
-                                                break;
-                                            case 'seasonings':
-                                                document.getElementById('seasonings').checked = true;
-                                                break;
-                                        }
-                                    })
-                                })
-                                .catch(err => {
-                                    //there will be an error because this is not a valid URL
-                                    console.error(err.code + ': ' + err.message);
-                                    alert(err.message);
-                                })
-                            }
-                            // add new ingredient page
+                            // fill out the ingredient form
+                            webPizza.loadAnIngredient();
                             document.getElementById('name').focus();                          
+                        } else {
+                            if(document.getElementById("form-profile")){
+                                console.log('form-profile');
+                                // reset form fields
+                                document.querySelector('.form-account').reset();
+                                // fill out the profile form
+                                webPizza.loadProfile();
+                                document.getElementById('newPwd').focus();
+                            }
                         }
                     }
                 }   
             // }
         }
     },
+    registerUser: function(ev){
+        ev.preventDefault();
+
+        console.log("registerUser");
+
+        // remove invalid feedback (if exists)
+        webPizza.removeInvalidFeedback();
+        
+        // check if the input fields are valid
+        let InvalidInput = webPizza.validateInputFields();
+
+        // If there's no invalid input, then try to register the user
+        if (InvalidInput.length === 0) {
+            //define the end point for the request
+            let url = webPizza.BASEURL + "/auth/users";
+
+            //prepare the data to send to the server
+            let newUser = {
+                firstName: document.getElementById('first-name').value,
+                lastName: document.getElementById('last-name').value,
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value,
+                isStaff: (document.getElementById('inputIsStaff').value === "staff") ? "true" : "false"
+            };
+            let jsonData = JSON.stringify(newUser);
+            console.log(jsonData);
+
+            //create a Headers object
+            let headers = new Headers();
+            //append the Authorization header
+            headers.append('Content-Type', 'application/json;charset=UTF-8');
+
+            //create a Request Object
+            let req = new Request(url, {
+                headers: headers,
+                method: 'POST',
+                mode: 'cors',
+                body: jsonData
+            });
+
+            // fetch
+            fetch(req)
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        console.log(response);
+                        let errorData = response.json();
+                        let errorDetail = errorData.data;
+                        console.log(errorData);
+                        console.log(errorDetail);
+                        //if(errorDetail[0].)
+                        throw new Error('Error ' + response.status + ' ' + response.statusText);
+                    }
+                })
+                .then(result => {
+                    console.log("success");
+                    let data = result.data;
+                    console.log(data);
+
+                    if(data.isStaff){
+                        // Get Logged-in User???
+                        // Get Logged-in User and retrieve a valid token???? Does it depend on the user isStaff flag?
+                        webPizzal.doLogin();
+                    } else {
+                        // call sign in page
+                        document.location.href = "/sign-in.html";
+                    }        
+                })
+                .catch(err => {
+                    //there will be an error because this is not a valid URL
+                    console.error(err.code + ': ' + err.message);
+                    alert(err.message);
+                    
+                    // let body = document.querySelector('.form-account');
+                    // let div1 = document.createElement('div');
+                    // div1.className = 'modal';
+                    // div1.setAttribute('role','dialog');
+                    // let div2 = document.createElement('div');
+                    // div2.className = 'modal-dialog';
+                    // div2.setAttribute('role','document');
+                    // let div3 = document.createElement('div');
+                    // div3.className = 'mmodal-content';
+                    // div3.textContent = 'Error';
+                    // div2.appendChild(div3);
+                    // div1.appendChild(div2);
+                    // body.appendChild(div1);
+                    // console.log(body);
+
+                    // <div class="alert alert-primary" role="alert">
+                    //     A simple primary alert—check it out!
+                    // </div>
+                })
+        } else {
+            // display invalid inputs
+            InvalidInput.forEach( obj =>{               
+                let failField = document.getElementById(obj.input);   
+                failField.classList.add("is-invalid");
+                let invalidMsg = document.createElement("div");
+                invalidMsg.textContent = obj.msg;
+                invalidMsg.classList.add("invalid-feedback");
+                failField.parentElement.appendChild(invalidMsg);    
+            })
+        }
+    },
     removeInvalidFeedback: function(){
         // remove invalid feedback messages of page inputs
-        if (document.getElementById("form-sign-in") !== null) {
-            let invalidFields = document.querySelectorAll('.is-invalid');
-            if(invalidFields.length > 0){
-                invalidFields.forEach(field => {
-                    let parentFeedback = field.parentElement;
-                    let feedback = parentFeedback.querySelector('.invalid-feedback');
-                    parentFeedback.removeChild(feedback);
-                    field.classList.remove('is-invalid');          
-                })
-            }
+        let invalidFields = document.querySelectorAll('.is-invalid');
+        if(invalidFields.length > 0){
+            invalidFields.forEach(field => {
+                let parentFeedback = field.parentElement;
+                let feedback = parentFeedback.querySelector('.invalid-feedback');
+                parentFeedback.removeChild(feedback);
+                field.classList.remove('is-invalid');          
+            })
         }
     },
     saveIngredient: function(ev){
@@ -746,99 +1013,124 @@ let webPizza = {
                 
                 //console.log('isStaff', data.isStaff);
                 if(!data.isStaff){
+                    // if user is not a staff, load the sign in page again
                     alert("Only staff users have access to this system.");
                     webPizza.prepareInitialScreen();
                 } else {
                     // call pizza list page for the logged-in user
-                    location = "/admin/pizzas.html";
+                    document.location.href = "/admin/pizzas.html";
                 };
             
             })
             .catch(err => {
                 //there will be an error because this is not a valid URL
                 console.log(err.code + ': ' + err.message);
+                alert(err.message);
             })
     },
     showPassword: function(ev) {
         ev.preventDefault();
-        
-        let password = document.getElementById('signin-show-password');
+
+        console.log("chk pwd profile");
+        let password = document.getElementById('show-password');
         if (password.checked){
-            document.getElementById('password').type = "text";
+            if(document.getElementById('form-profile') !== null){
+                document.getElementById('newPwd').type = "text"
+                document.getElementById('retypeNewPwd').type = "text"
+            } else {
+                document.getElementById('password').type = "text";
+            }
         } else{
-            document.getElementById('password').type = "password";
+            if(document.getElementById('form-profile') !== null){
+                document.getElementById('newPwd').type = "password"
+                document.getElementById('retypeNewPwd').type = "password"
+            } else {
+                document.getElementById('password').type = "password";
+            }
         }
     },
     signOut: function(){
         // remove the token from local Storage
         localStorage.removeItem(webPizza.KEY);
         // call sign in page
-        location = "/sign-in.html";
+        document.location.href = "/sign-in.html";
     },
     validateInputFields: function() {
-        // Validate Sign in fields
+        // Validate input fields
         let invalidInput = [];
-        
-        if (document.getElementById("form-sign-in") !== null) {
-            let signinEmail = document.getElementById('email');
-            if (signinEmail.value === "") {
+
+        if (document.getElementById("form-sign-in") !== null || document.getElementById("form-register") !== null) {
+            let Email = document.getElementById('email');
+            if (Email.value === "") {
                 invalidInput.push({input: 'email', msg: 'Email is required.'});
             }
-            let signinPassword = document.getElementById('password');
-            if (signinPassword.value === "") {
+            let Password = document.getElementById('password');
+            if (Password.value === "") {
                 invalidInput.push({input: 'password', msg: 'Password is required.'});
             }
+        }
+        if(document.getElementById("form-register") !== null){
+            let firstName = document.getElementById('first-name');
+            if (firstName.value === "") {
+                invalidInput.push({input: 'first-name', msg: 'First name is required.'});
+            }
+            let lastName = document.getElementById('last-name');
+            if (lastName.value === "") {
+                invalidInput.push({input: 'last-name', msg: 'Last name is required.'});
+            }
         } else {
-            if (document.getElementById("form-ingredient-edit") !== null) {
-                let name = document.getElementById('name');
-                if (name.value === "") {
-                    invalidInput.push({input: 'name', msg: 'Name is required.'});
+            if(document.getElementById("form-profile") !== null){
+                let newPwd = document.getElementById("newPwd");
+                if(newPwd.value === ""){
+                    invalidInput.push({input: 'newPwd', msg: 'New Password is required.'});
+                };
+                let retypeNewPwd = document.getElementById("retypeNewPwd");
+                if(retypeNewPwd.value === ""){
+                    invalidInput.push({input: 'retypeNewPwd', msg: 'Retype New Password is required.'});
                 }
-                let price = document.getElementById('price');
-                if (price.value === "") {
-                    price.value = 1.00;
-                } else {
-                    let ingredPrice = parseInt(price.value * 100);
-                    if(ingredPrice < 0 || ingredPrice > 10000){
-                        invalidInput.push({input: 'price', msg: 'Price must be between $0 and $100.00. '});
+                if((newPwd.value !== "" ) && (retypeNewPwd.value !== "")){
+                    if(newPwd.value !== retypeNewPwd.value) {
+                        invalidInput.push({input: 'newPwd', msg: 'Passwords are different.'});
                     }
                 }
-                let quantity = document.getElementById('quantity');
-                if (quantity.value === "") {
-                    quantity.value = 10;
-                } else {
-                    let ingredQty = parseInt(quantity.value);
-                    if(ingredQty < 0 || ingredQty > 1000){
-                        invalidInput.push({input: 'quantity', msg: 'Quantity must be between 0 and 1000.'});
+            } else {
+                if (document.getElementById("form-ingredient-edit") !== null) {
+                    let name = document.getElementById('name');
+                    if (name.value === "") {
+                        invalidInput.push({input: 'name', msg: 'Name is required.'});
                     }
-                }
-                // validate URL
-                let url = document.getElementById('url');
-                if (url.value !== ""){
+                    let price = document.getElementById('price');
+                    if (price.value === "") {
+                        price.value = 1.00;
+                    } else {
+                        let ingredPrice = parseInt(price.value * 100);
+                        if(ingredPrice < 0 || ingredPrice > 10000){
+                            invalidInput.push({input: 'price', msg: 'Price must be between $0 and $100.00 '});
+                        }
+                    }
+                    let quantity = document.getElementById('quantity');
+                    if (quantity.value === "") {
+                        quantity.value = 10;
+                    } else {
+                        let ingredQty = parseInt(quantity.value);
+                        if(ingredQty < 0 || ingredQty > 1000){
+                            invalidInput.push({input: 'quantity', msg: 'Quantity must be between 0 and 1000.'});
+                        }
+                    }
                     // validate URL
-                    // if()...
-                    //invalidInput.push({input: 'quantity', msg: 'Quantity must be between 0 and 1000.'});
+                    let url = document.getElementById('url');
+                    if (url.value !== ""){
+                        // validate URL
+                        // if()...
+                        //invalidInput.push({input: 'quantity', msg: 'Quantity must be between 0 and 1000.'});
+                    }
                 }
             }
         }
         //console.log(invalidInput);
         return invalidInput;
     }
-    // validateSignIn: function () {
-    //     // Validate Sign in fields
-    //     let invalidInput = [];
-        
-    //     let signinEmail = document.getElementById('email');
-    //     if (signinEmail.value === "") {
-    //         invalidInput.push({input: 'email', msg: 'Email is required.'});
-    //     }
-    //     let signinPassword = document.getElementById('password');
-    //     if (signinPassword.value === "") {
-    //         invalidInput.push({input: 'password', msg: 'Password is required.'});
-    //     }
-    //     //console.log(invalidInput);
-    //     return invalidInput;
-    // }
+    
 }
 
 webPizza.init();

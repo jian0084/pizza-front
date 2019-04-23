@@ -98,16 +98,18 @@ header .hd-title {
 } 
 */
 
-.btn-signin {
+.btn-signin,
+    .btn-signup {
     color: var(--white);
     background-color: var(--dkred);
     border-color: var(--dkred);
 }
-
 .btn {
     width: 80px;
 }
-
+.btn-signup {
+    width: 160px;
+}
 form {
     margin-top: 3rem;
     padding: 3rem;
