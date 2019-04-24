@@ -12,6 +12,8 @@ Photo by Thomas Schweighofer on Unsplash
 When removeItem from localStorage? Sign out and... when login? When load the homepage?
 Not isStaff users can access list pizzas/ingredients? Review prepareInitialScreen 
 discuss the navbar items after sign in (sign out/sign up/profile) on each screen
+
+list a pizza (need to populate ingredient)
 */
 
 let webPizza = {
@@ -49,16 +51,12 @@ let webPizza = {
                     console.log('profile');
                     document.getElementById('btn-change-password').addEventListener('click',webPizza.changePassword);
                 } else {
-                    let ingred = document.getElementById("form-ingredients");
-                    if (ingred !== null) {
-                        //console.log("Ingredients");
-                        document.getElementById('add').addEventListener('click', webPizza.callDetailScreen);
+                    if (document.getElementById("form-ingredients") !== null || document.getElementById("form-pizzas") !== null) {
+                        document.getElementById('add').addEventListener('click', webPizza.callDetailItem);
                     } else {
-                        let ingredEdit = document.getElementById("form-ingredient-edit");
-                        if (ingredEdit !== null) {
-                            //console.log("Add/Edit Ingredients");
+                        if (document.getElementById("form-ingredient-edit") !== null || document.getElementById("form-pizza-edit") !== null) {
                             document.getElementById('btn-back').addEventListener('click', webPizza.callListScreen);
-                            document.getElementById('btn-save').addEventListener('click', webPizza.saveIngredient);
+                            document.getElementById('btn-save').addEventListener('click', webPizza.saveItem);
                             document.getElementById('price').addEventListener('blur', webPizza.formatCurrency);
                         }
                     }
@@ -73,30 +71,38 @@ let webPizza = {
             signout.addEventListener('click', webPizza.signOut);
         }
     },
-    callDetailScreen: function(ev){
+    callDetailItem: function(ev){
         ev.preventDefault();
 
         let queryString = "";
 
-        if (document.getElementById("form-ingredients") !== null) {
+        if ((document.getElementById("form-ingredients") !== null) || (document.getElementById("form-pizzas") !== null)) {
+            let typeItem = "";
+            if(document.getElementById("form-ingredients") !== null)
+                typeItem = "ingredient";
+            else 
+                typeItem = "pizza";
+            
             if(ev.currentTarget.classList.contains("btn-edit")){
                 // set querystring with the ingredient id
                 queryString = "?id=" + ev.currentTarget.getAttribute("data-id");
                 console.log(ev.currentTarget.getAttribute("data-id"));
                 console.log(queryString);
             }
-            // call ingredient detail page (add/edit)
-            document.location.href = "/admin/ingredient-edit.html" + queryString;
-            //http://127.0.0.1:5500/admin/ingredient-edit.html?id=5caf768f9ed3824ab5dc5eb2
-            //http://127.0.0.1:5500/admin/ingredients.html
-            //http://127.0.0.1:3030/admin/ingredients.html
-        }
+            // call item (ingredient or pizza) detail page (add/edit)
+            document.location.href = "/admin/" + typeItem + "-edit.html" + queryString;
+        } 
     },
     callListScreen: function(){
+        let typeItem = "";
         if (document.getElementById("form-ingredient-edit") !== null) {
-            // call ingredient list page
-            document.location.href = "/admin/ingredients.html";
+            typeItem = "ingredients";
+        } else {
+            if(document.getElementById("form-pizza-edit") !== null) {
+                typeItem = "pizzas";
+            }
         }
+        document.location.href = "/admin/" + typeItem + ".html";
     },
     changePassword: function(ev){
         ev.preventDefault();
@@ -155,7 +161,6 @@ let webPizza = {
                     alert("Password changed successfully.");
 
                     // call sign in page???
-                    // call sign in page
                     document.location.href = "/sign-in.html";
                     
                 })
@@ -176,19 +181,28 @@ let webPizza = {
             })
         }
     },
-    deleteIngredient: function(ev){
+    deleteItem: function(ev){
         ev.preventDefault();
 
+        let typeItem = "";
+        if(document.getElementById('form-pizzas') !== null) {
+            typeItem = 'pizzas';
+        } else {
+            if(document.getElementById('form-ingredients') !== null) {
+                typeItem = 'ingredients';
+            }
+        }
+        
         // are you sure you want to delete this ingredient?
-        let confDel = confirm('Are you sure you want to delete this ingredient?');
+        let confDel = confirm('Are you sure you want to delete this ' + (typeItem.substr(0,typeItem.length-1)) + '?');
         //console.log(confDel);
 
         // delete the ingredient
         if(confDel) {
-            let ingredId = ev.currentTarget.getAttribute("data-id");
+            let itemId = ev.currentTarget.getAttribute("data-id");
 
             //define the end point for the request
-            let url = webPizza.BASEURL + "/api/ingredients/" + ingredId;
+            let url = webPizza.BASEURL + "/api/" + typeItem + "/" + itemId;
 
             //get the token from localStorage
             let token = JSON.parse(localStorage.getItem(webPizza.KEY));
@@ -222,10 +236,10 @@ let webPizza = {
                     //console.log(result.data);
 
                     // msg success to include
-                    alert(result.data.name + " ingredient was deleted successfully.");
+                    alert(result.data.name + " " + (typeItem.substr(0,typeItem.length-1)) + " was deleted successfully.");
 
-                    // update the list of ingredients
-                    webPizza.listAllIngredients();
+                    // update the list of items (pizzas or ingredients)
+                    webPizza.listAll();
                 })
                 .catch(err => {
                     //there will be an error because this is not a valid URL
@@ -295,6 +309,44 @@ let webPizza = {
 
                 // console.log(div1);
         }
+    },
+    displayMessage: function(type, msg){
+        let alertType = "";
+        switch (type){
+            case "info": 
+                alertType = "alert-info";
+                break;
+            case "success": 
+                alertType = "alert-success";
+                break;
+            case "error": 
+                alertType = "alert-info";
+                break;
+            default:
+                alertType = "alert-info";
+        } 
+        
+        let div = document.createElement('div');
+        div.className = 'alert ' + alertType + ' alert-dismissible';
+        div.setAttribute = 'alert';
+        div.textContent = msg;
+        let btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'close';
+        btn.setAttribute('data-dismiss', 'alert');
+        btn.innerHTML = "&times;";
+
+        div.appendChild(btn);
+        console.log(div);
+        
+
+        let body = document.querySelector('body');
+        body.insertBefore(div,body.childNodes[0]);
+        console.log(body);
+
+        let alert = document.querySelector('.alert');
+        alert.classList.add("alert-show");
+
     },
     doLogin: function(ev) {
         ev.preventDefault();
@@ -393,9 +445,279 @@ let webPizza = {
             }
         }
     },
-    listAllIngredients: function () {  
-        console.log("List All Ingredientes");
+    listAll: function(){
+
+        let typeList = "";
+        if(document.getElementById("form-pizzas")){
+            typeList = "pizzas"
+        } else {
+            if(document.getElementById("form-ingredients")){
+                typeList = "ingredients"
+            }
+        };
+        //console.log("List all " + typeList);
         
+        //define the end point for the request
+        let url = webPizza.BASEURL + "/api/" + typeList;
+       
+        //get the token from localStorage
+        let token = JSON.parse(localStorage.getItem(webPizza.KEY));
+        //console.log(token);
+
+        //create a Headers object
+        let headers = new Headers();
+        //append the Authorization header
+        headers.append('Authorization', 'Bearer ' + token);
+        headers.append('Content-Type', 'application/json;charset=UTF-8');
+        //console.log(headers);
+
+        //create a Request Object
+        let req = new Request(url, {
+            headers: headers,
+            method: 'GET',
+            mode: 'cors'
+        });
+        //now do the fetch
+        fetch(req)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error ' + response.status + ' ' + response.statusText);
+                } else {
+                    return response.json();
+                }
+            })
+            .then(result => {
+                //console.log("success");
+                let data = result.data;
+                //console.log(data);
+                
+                let Counter = 0;
+
+                // reset list of ingredients
+                let list = document.querySelector('tbody');
+                while (list.firstChild){
+                    list.removeChild(list.firstChild);
+                }
+                //console.log(ingred);
+
+                let sorted = data.sort( (a, b) => {
+                    if(a.name > b.name) return 1;
+                    else if(b.name > a.name) return -1;
+                    else return 0;
+                })
+
+                // Create list of Ingredients
+                sorted.forEach(obj => {
+
+                    Counter++;
+
+                    let tr = document.createElement('tr');
+                    let tdNumber = document.createElement('td');
+                    tdNumber.textContent = Counter;
+
+                    let tdName = document.createElement('td');              
+                    tdName.textContent = obj.name;
+                    let tdPrice = document.createElement('td');
+                    tdPrice.textContent = '$' + (obj.price/100).toFixed(2);
+
+                    let tdSize = "";
+                    let tdQuantity = ""
+                    if(typeList === "pizzas"){
+                        tdSize = document.createElement('td');
+                        tdSize.textContent = obj.size;
+                    } else {
+                        if (typeList === "ingredients"){
+                            tdQuantity = document.createElement('td');
+                            tdQuantity.textContent = obj.quantity;
+                        }
+                    }
+                    
+                    let tdIsGlutenFree = document.createElement('td');
+                    tdIsGlutenFree.textContent = obj.isGlutenFree ? "No" : "Yes";
+
+                    let tdButtons = document.createElement('td');
+                    let btEdit = document.createElement('button');
+                    btEdit.setAttribute('type', 'button');
+                    btEdit.className = 'btn btn-edit btn-primary btn-rounded btn-sm mr-2';
+                    btEdit.textContent = 'EDIT';
+                    btEdit.setAttribute('data-id', obj._id);
+                    let btDelete = document.createElement('button');
+                    btDelete.setAttribute('type', 'button');
+                    btDelete.className = 'btn-delete btn btn-danger btn-rounded btn-sm m-0';
+                    btDelete.textContent = 'DELETE';
+                    btDelete.setAttribute('data-id', obj._id);
+                    tdButtons.appendChild(btEdit);
+                    tdButtons.appendChild(btDelete);
+
+                    tr.appendChild(tdNumber);
+                    tr.appendChild(tdName);
+                    tr.appendChild(tdPrice);
+                    if(typeList === "pizzas"){
+                        tr.appendChild(tdSize);
+                    } else {
+                        if(typeList === "ingredients"){
+                            tr.appendChild(tdQuantity);
+                        }
+                    }
+                    tr.appendChild(tdIsGlutenFree);
+                    tr.appendChild(tdButtons);
+                    list.appendChild(tr);
+                    //console.log(tr);
+                })
+                // add event listener to delete and edit buttons
+                if(sorted.length > 0){
+                    let btEdit = document.querySelectorAll(".btn-edit");
+                    btEdit.forEach(item =>{
+                        item.addEventListener("click", webPizza.callDetailItem);
+                    })
+                    let btDel = document.querySelectorAll(".btn-delete");
+                    btDel.forEach(item =>{
+                        item.addEventListener("click", webPizza.deleteItem);
+                    })
+                }
+            })
+            .catch(err => {
+                //there will be an error because this is not a valid URL
+                console.error(err.code + ': ' + err.message);
+                alert(err.message);
+            })
+    },
+    loadAnItem: function(ev){
+        // check if it's in add or edit mode
+        let urlParams = new URLSearchParams(document.location.search);
+
+        if(urlParams.has('id')) {
+
+            let typeItem = "";
+            if(document.getElementById('form-ingredient-edit')){
+                typeItem = "ingredients";
+            } else {
+                typeItem = "pizzas"
+            }
+
+            // load edit ingredient page
+            let itemId = urlParams.get('id');
+            console.log(itemId);
+
+            //define the end point for the request
+            let url = webPizza.BASEURL + "/api/" + typeItem + "/" + itemId;
+
+            //get the token from localStorage
+            let token = JSON.parse(localStorage.getItem(webPizza.KEY));
+            //console.log(token);
+
+            //create a Headers object
+            let headers = new Headers();
+            //append the Authorization header
+            headers.append('Authorization', 'Bearer ' + token);
+            headers.append('Content-Type', 'application/json;charset=UTF-8');
+            //console.log(headers);
+
+            //create a Request Object
+            let req = new Request(url, {
+                headers: headers,
+                method: 'GET',
+                mode: 'cors'
+            });
+            
+            // get the data of the ingredient
+            fetch(req)
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Error ' + response.status + ' ' + response.statusText);
+                }
+            })
+            .then(result => {
+                //console.log("success");
+                let data = result.data;
+                //console.log(result.data);
+
+                // fill out the form
+                document.getElementById("name").value = data.name;
+                document.getElementById("price").value = parseFloat(data.price/100).toFixed(2);
+                if(data.isGlutenFree === true){
+                    document.getElementById('yes-glutenfree').checked = true;
+                } else {
+                    document.getElementById('no-glutenfree').checked = true;
+                }
+                if(typeItem === "ingredients"){
+                    document.getElementById('quantity').value = data.quantity;
+                    document.getElementById('url').value = data.imageUrl;
+                    //console.log(data.categories);
+                    data.categories.forEach(item => {
+                        console.log(item);
+                        switch (item) {
+                            case 'meat':
+                                document.getElementById('meat').checked = true;
+                                break;
+                            case 'spicy':
+                                document.getElementById('spicy').checked = true;
+                                break;
+                            case 'vegetarian':
+                                document.getElementById('vegetarian').checked = true;
+                                break;
+                            case 'vegan':
+                                document.getElementById('vegan').checked = true;
+                                break;
+                            case 'halal':
+                                document.getElementById('halal').checked = true;
+                                break;
+                            case 'kosher':
+                                document.getElementById('kosher').checked = true;
+                                break;
+                            case 'cheeze':
+                                document.getElementById('cheeze').checked = true;
+                                break;
+                            case 'seasonings':
+                                document.getElementById('seasonings').checked = true;
+                                break;
+                        }
+                    })
+                } else {
+                    document.getElementById('imageUrl').value = data.imageUrl;
+                    switch (data.size) {
+                        case 'small':
+                            document.getElementById('small').checked = true;
+                            break;
+                        case 'medium':
+                            document.getElementById('medium').checked = true;
+                            break;
+                        case 'large':
+                            document.getElementById('large').checked = true;
+                            break;
+                        case 'extra large':
+                            document.getElementById('extra-large').checked = true;
+                            break;
+                    }
+                    webPizza.loadIngredOptions();
+                    if(data.ingredients.length > 0){
+                        let ingredPizza = data.ingredients;
+                        ingredPizza.forEach(item => {
+                            console.log('item ',item._id,item.name);
+                            //let checkIngred = document.querySelectorAll('.check-ingred')
+                            let checkIngred = document.getElementById(item._id);
+                            console.log(checkIngred.checked);
+                            checkIngred.checked = true;
+                            console.log(checkIngred.checked);
+                            
+                        })
+                    };
+                    if(data.extraToppings.length > 0){
+                        console.log('extraToppings',data.extraToppings)
+                    };
+                }
+            })
+            .catch(err => {
+                //there will be an error because this is not a valid URL
+                console.error(err.code + ': ' + err.message);
+                alert(err.message);
+            })
+        }
+    },
+    loadIngredOptions: function(){
+        // select all ingredients
         //define the end point for the request
         let url = webPizza.BASEURL + "/api/ingredients";
        
@@ -416,8 +738,6 @@ let webPizza = {
             method: 'GET',
             mode: 'cors'
         });
-        
-        //body is the data that goes to the API
         //now do the fetch
         fetch(req)
             .then(response => {
@@ -431,14 +751,15 @@ let webPizza = {
                 //console.log("success");
                 let data = result.data;
                 
-                let ingredCounter = 0;
-
                 // reset list of ingredients
-                let ingred = document.querySelector('tbody');
-                while (ingred.firstChild){
-                    ingred.removeChild(ingred.firstChild);
+                let list = document.querySelector('.ingred-option-input');
+                while (list.firstChild){
+                    list.removeChild(list.firstChild);
                 }
-                //console.log(ingred);
+                list = document.querySelector('.extra-toppings-option-input');
+                while (list.firstChild){
+                    list.removeChild(list.firstChild);
+                }
 
                 let sorted = data.sort( (a, b) => {
                     if(a.name > b.name) return 1;
@@ -446,69 +767,65 @@ let webPizza = {
                     else return 0;
                 })
 
+                let counter = 0;
+                let ingredOption = document.querySelector('.ingred-option-input');
+                let extraTopOption = document.querySelector('.extra-toppings-option-input');
+
                 // Create list of Ingredients
                 sorted.forEach(obj => {
 
-                    ingredCounter++;
+                    counter++;
+                    
+                    let div1 = document.createElement('div');
+                    div1.className = "form-check form-ingred-option"
+                    let input1 = document.createElement('input');
+                    input1.className = "form-check-input check-ingred";
+                    input1.id = obj._id;
+                    input1.type = "checkbox";
+                    input1.setAttribute("value", obj.name);
+                    input1.setAttribute("data-id", obj._id);
+                    input1.setAttribute("data-price", parseFloat(obj.price/100).toFixed(2));
+                    //input1.id = "defaultCheck" + counter;
 
-                    let tr = document.createElement('tr');
-                    let tdCheck = document.createElement('td');
-                    let div = document.createElement('div');
-                    div.className = 'custom-control';
-                    div.classList.add('custom-checkbox');
-                    let input = document.createElement('input');
-                    input.setAttribute('type', 'checkbox');
-                    input.className = 'custom-control-input';
-                    input.id = 'check' + ingredCounter;
-                    let label = document.createElement('label');
-                    label.className = 'custom-control-label';
-                    label.setAttribute('for', 'check' + ingredCounter);
-                    label.textContent = ingredCounter;
+                    let label1 = document.createElement('label');              
+                    label1.className = "form-check-label";
+                    //label1.setAttribute("for","defaultCheck" + counter);
+                    label1.setAttribute("for",obj._id);
+                    label1.textContent = obj.name;
+                    
+                    div1.appendChild(input1);
+                    div1.appendChild(label1);
+                    ingredOption.appendChild(div1);
 
-                    div.appendChild(input);
-                    div.appendChild(label);
-                    tdCheck.appendChild(div);
+                    let div2 = document.createElement('div');
+                    div2.className = "form-check form-extra-option"
+                    let input2 = document.createElement('input');
+                    input2.className = "form-check-input check-extra-toppings";
+                    input2.id = obj._id;
+                    input2.type = "checkbox";
+                    input2.setAttribute("value", obj.name);
+                    input2.setAttribute("data-id", obj._id);
+                    input2.setAttribute("data-price", parseFloat(obj.price/100).toFixed(2));
+                    input2.id = "defaultCheckExtra" + counter;
 
-                    let tdName = document.createElement('td');              
-                    tdName.textContent = obj.name;
-                    let tdPrice = document.createElement('td');
-                    tdPrice.textContent = '$' + (obj.price/100).toFixed(2);
-                    let tdQuantity = document.createElement('td');
-                    tdQuantity.textContent = obj.quantity;
-                    let tdIsGlutenFree = document.createElement('td');
-                    tdIsGlutenFree.textContent = obj.isGlutenFree ? "No" : "Yes";
-                    let tdButtons = document.createElement('td');
-                    let btEdit = document.createElement('button');
-                    btEdit.setAttribute('type', 'button');
-                    btEdit.className = 'btn btn-edit btn-primary btn-rounded btn-sm mr-2';
-                    btEdit.textContent = 'EDIT';
-                    btEdit.setAttribute('data-id', obj._id);
-                    let btDelete = document.createElement('button');
-                    btDelete.setAttribute('type', 'button');
-                    btDelete.className = 'btn-delete btn btn-danger btn-rounded btn-sm m-0';
-                    btDelete.textContent = 'DELETE';
-                    btDelete.setAttribute('data-id', obj._id);
-                    tdButtons.appendChild(btEdit);
-                    tdButtons.appendChild(btDelete);
-
-                    tr.appendChild(tdCheck);
-                    tr.appendChild(tdName);
-                    tr.appendChild(tdPrice);
-                    tr.appendChild(tdQuantity);
-                    tr.appendChild(tdIsGlutenFree);
-                    tr.appendChild(tdButtons);
-                    ingred.appendChild(tr);
-                    //console.log(tr);
+                    let label2 = document.createElement('label');              
+                    label2.className = "form-check-label";
+                    label2.setAttribute("for","defaultCheckExtra" + counter);
+                    label2.textContent = obj.name;
+                    
+                    div2.appendChild(input2);
+                    div2.appendChild(label2);
+                    extraTopOption.appendChild(div2);       
                 })
-                // add event listener to delete and edit buttons
+                // add event listener to update price depends on ingredients and extra toppings
                 if(sorted.length > 0){
-                    let btEdit = document.querySelectorAll(".btn-edit");
-                    btEdit.forEach(item =>{
-                        item.addEventListener("click", webPizza.callDetailScreen);
+                    let chkIngred = document.querySelectorAll(".check-ingred");
+                    chkIngred.forEach(item =>{
+                        item.addEventListener("click", webPizza.updatePizzaPrice);
                     })
-                    let btDel = document.querySelectorAll(".btn-delete");
-                    btDel.forEach(item =>{
-                        item.addEventListener("click", webPizza.deleteIngredient);
+                    let chkExtra = document.querySelectorAll(".check-extra-toppings");
+                    chkExtra.forEach(item =>{
+                        item.addEventListener("click", webPizza.updatePizzaPrice);
                     })
                 }
             })
@@ -517,98 +834,6 @@ let webPizza = {
                 console.error(err.code + ': ' + err.message);
                 alert(err.message);
             })
-    },
-    loadAnIngredient: function(){
-        // check if it's in add or edit mode
-        let urlParams = new URLSearchParams(document.location.search);
-
-        if(urlParams.has('id')) {
-            // load edit ingredient page
-            let ingredId = urlParams.get('id');
-            console.log(ingredId);
-
-            //define the end point for the request
-            let url = webPizza.BASEURL + "/api/ingredients/" + ingredId;
-
-            //get the token from localStorage
-            let token = JSON.parse(localStorage.getItem(webPizza.KEY));
-            //console.log(token);
-
-            //create a Headers object
-            let headers = new Headers();
-            //append the Authorization header
-            headers.append('Authorization', 'Bearer ' + token);
-            headers.append('Content-Type', 'application/json;charset=UTF-8');
-            //console.log(headers);
-
-            //create a Request Object
-            let req = new Request(url, {
-                headers: headers,
-                method: 'GET',
-                mode: 'cors'
-            });
-
-            // get the data of the ingredient
-            fetch(req)
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error('Error ' + response.status + ' ' + response.statusText);
-                }
-            })
-            .then(result => {
-                console.log("success");
-                let data = result.data;
-                console.log(result.data);
-
-                // fill out the form
-                document.getElementById("name").value = data.name;
-                document.getElementById("price").value = parseFloat(data.price/100).toFixed(2);
-                document.getElementById('quantity').value = data.quantity;
-                if(data.isGlutenFree === true){
-                    document.getElementById('yes-glutenfree').checked = true;
-                } else {
-                    document.getElementById('no-glutenfree').checked = true;
-                }
-                document.getElementById('url').value = data.imageUrl;
-                console.log(data.categories);
-                data.categories.forEach(item => {
-                    console.log(item);
-                    switch (item) {
-                        case 'meat':
-                            document.getElementById('meat').checked = true;
-                            break;
-                        case 'spicy':
-                            document.getElementById('spicy').checked = true;
-                            break;
-                        case 'vegetarian':
-                            document.getElementById('vegetarian').checked = true;
-                            break;
-                        case 'vegan':
-                            document.getElementById('vegan').checked = true;
-                            break;
-                        case 'halal':
-                            document.getElementById('halal').checked = true;
-                            break;
-                        case 'kosher':
-                            document.getElementById('kosher').checked = true;
-                            break;
-                        case 'cheeze':
-                            document.getElementById('cheeze').checked = true;
-                            break;
-                        case 'seasonings':
-                            document.getElementById('seasonings').checked = true;
-                            break;
-                    }
-                })
-            })
-            .catch(err => {
-                //there will be an error because this is not a valid URL
-                console.error(err.code + ': ' + err.message);
-                alert(err.message);
-            })
-        }
     },
     loadProfile: function(){
         //define the end point for the request
@@ -673,17 +898,21 @@ let webPizza = {
         }
 
         let token = JSON.parse(localStorage.getItem(webPizza.KEY));
-        console.log('token',token);
+        //console.log('token',token);
+
         // Logged-in user
         if(token !== null){
-            // if(document.getElementById("form-sign-in") !== null){
-            //     // reset form fields
-            //     document.querySelector('.form-account').reset();
-            //     document.getElementById('email').focus();
-            // } else {
-                if (document.getElementById("form-pizzas") !== null) {          
+            if(document.getElementById("form-profile") !== null){
+                console.log('form-profile');
+                // reset form fields
+                document.querySelector('.form-account').reset();
+                // fill out the profile form
+                webPizza.loadProfile();
+                document.getElementById('newPwd').focus();
+            } else {
+                if (document.getElementById("form-pizzas") !== null || document.getElementById("form-ingredients") !== null) {          
                     let token = JSON.parse(localStorage.getItem(webPizza.KEY));
-                    //console.log(token);
+                    console.log('list');
                     
                     // Logged-in user
                     if(token !== null){
@@ -691,50 +920,29 @@ let webPizza = {
                         document.getElementById("nav-sign-out").classList.remove("hide");
                         document.getElementById("nav-profile").classList.remove("hide");
                     }
-                    //webPizza.listAllPizzas();
+                    webPizza.listAll();
                 } else {
-                    if (document.getElementById("form-ingredients") !== null) {
-                        let token = JSON.parse(localStorage.getItem(webPizza.KEY));
-                        //console.log(token);
-                        
-                        // Logged-in user
-                        if(token !== null){
-                            document.getElementById("nav-sign-in").classList.add("hide");
-                            document.getElementById("nav-sign-out").classList.remove("hide");
-                            document.getElementById("nav-profile").classList.remove("hide");
-                        }
-                        webPizza.listAllIngredients();
-                    } else {
-                        if (document.getElementById("form-ingredient-edit")){
-                            // let token = JSON.parse(localStorage.getItem(webPizza.KEY));
-                            // //console.log(token);
-                            
-                            // // Logged-in user
-                            // if(token !== null){
-                            //     document.getElementById("nav-sign-in").classList.add("hide");
-                            //     document.getElementById("nav-sign-out").classList.remove("hide");
-                            //     document.getElementById("nav-profile").classList.remove("hide");
-                            // }
+                    if (document.getElementById("form-ingredient-edit") !== null || document.getElementById("form-pizza-edit") !== null){
+                        //console.log('add/edit page')
+                        // reset form fields
+                        document.querySelector('.form-add-edit').reset();
 
-                            // reset form fields
-                            document.querySelector('.form-add-edit').reset();
+                        // check if it's in edit mode (there's a id)
+                        let urlParams = new URLSearchParams(document.location.search);
+                        if(urlParams.has('id')) {
+                            // fill out the item (ingredient or pizza) form
+                            webPizza.loadAnItem();
+                        };
 
-                            // fill out the ingredient form
-                            webPizza.loadAnIngredient();
-                            document.getElementById('name').focus();                          
-                        } else {
-                            if(document.getElementById("form-profile")){
-                                console.log('form-profile');
-                                // reset form fields
-                                document.querySelector('.form-account').reset();
-                                // fill out the profile form
-                                webPizza.loadProfile();
-                                document.getElementById('newPwd').focus();
-                            }
+                        // if pizza add/edit page then load ingredients and extra toppings options
+                        if(document.getElementById("form-pizza-edit") !== null) {
+                            webPizza.loadIngredOptions();
                         }
+
+                        document.getElementById('name').focus();
                     }
-                }   
-            // }
+                }
+            }
         }
     },
     registerUser: function(ev){
@@ -854,7 +1062,7 @@ let webPizza = {
             })
         }
     },
-    saveIngredient: function(ev){
+    saveItem: function(ev){
         ev.preventDefault();
 
         // remove invalid feedback (if exists)
@@ -866,19 +1074,26 @@ let webPizza = {
         // If there's no invalid input, then try to login
         if (InvalidInput.length === 0) {
 
-            //define the end point for the request
-            let url = webPizza.BASEURL + "/api/ingredients";
+            let typeItem = "";
 
-            // check if it's to include a new ingredient or to edit an ingredient
+            if(document.getElementById('form-ingredient-edit'))
+                typeItem = "ingredients";
+            else
+                typeItem = "pizzas";
+
+            //define the end point for the request
+            let url = webPizza.BASEURL + "/api/" + typeItem;
+
+            // check if it's to include a new item (pizza or ingredient) or to edit an item (pizza or ingredient)
             // check querystring
             // check if it's in add or edit mode
             let mode = '';
             let urlParams = new URLSearchParams(document.location.search);
 
             if(urlParams.has('id')) {
-                // load edit ingredient page
-                let ingredId = urlParams.get('id');
-                url = url + "/" + ingredId;
+                // load edit item (ingredient or pizza) page
+                let itemId = urlParams.get('id');
+                url = url + "/" + itemId;
                 mode = 'edit';
             } else {
                 mode = 'add';
@@ -896,44 +1111,96 @@ let webPizza = {
             //console.log(headers);
 
             //prepare the data to send to the server
-            let categIngr = [];
-            if(document.getElementById('meat').checked)
-                categIngr.push('meat');
-            if(document.getElementById('spicy').checked)
-                categIngr.push('spicy');
-            if(document.getElementById('vegetarian').checked)
-                categIngr.push('vegetarian')
-            if(document.getElementById('vegan').checked)
-                categIngr.push('vegan')
-            if(document.getElementById('halal').checked)
-                categIngr.push('halal')
-            if(document.getElementById('kosher').checked)
-                categIngr.push('kosher')
-            if(document.getElementById('cheeze').checked)
-                categIngr.push('cheeze')
-            if(document.getElementById('seasonings').checked)
-                categIngr.push('seasonings')
-            //console.log(categIngr);
+            let item = {}
+            if(typeItem === "ingredients"){
+                let categIngr = [];
+                if(document.getElementById('meat').checked)
+                    categIngr.push('meat');
+                if(document.getElementById('spicy').checked)
+                    categIngr.push('spicy');
+                if(document.getElementById('vegetarian').checked)
+                    categIngr.push('vegetarian')
+                if(document.getElementById('vegan').checked)
+                    categIngr.push('vegan')
+                if(document.getElementById('halal').checked)
+                    categIngr.push('halal')
+                if(document.getElementById('kosher').checked)
+                    categIngr.push('kosher')
+                if(document.getElementById('cheeze').checked)
+                    categIngr.push('cheeze')
+                if(document.getElementById('seasonings').checked)
+                    categIngr.push('seasonings')
+                //console.log(categIngr);
 
-            let Ingredient = {
-                name: document.getElementById('name').value,
-                price: document.getElementById('price').value * 100,
-                quantity: document.getElementById('quantity').value,
-                isGlutenFree: (document.getElementById('no-glutenfree').checked) ? "false" : "true",
-                imageUrl: (document.getElementById('url').value === "") ? "" : document.getElementById('url').value,
-                categories: categIngr
-            };
-            let jsonData = JSON.stringify(Ingredient);
+                item = {
+                    name: document.getElementById('name').value,
+                    price: document.getElementById('price').value * 100,
+                    quantity: document.getElementById('quantity').value,
+                    isGlutenFree: (document.getElementById('no-glutenfree').checked) ? "false" : "true",
+                    imageUrl: (document.getElementById('url').value === "") ? "" : document.getElementById('url').value,
+                    categories: categIngr
+                };
+            } else {
+                // when the item is a pizza
+                let sizePizza = 'small';
+                if(document.getElementById('medium').checked){
+                    sizePizza = 'medium';
+                } else {
+                    if(document.getElementById('large').checked){
+                        sizePizza = 'large';
+                    } else {
+                        if(document.getElementById('extra-large').checked){
+                            sizePizza = 'extra large';
+                        }
+                    }
+                }
+                console.log('sizePizza',sizePizza);
+
+                let ingredPizza = [];
+                let ingredOpt = document.querySelectorAll('.check-ingred');
+                ingredOpt.forEach(item => {
+                    if(item.checked){
+                        ingredPizza.push(item.getAttribute("data-id"));
+                    }
+                });
+                let extraTopPizza = [];
+                let extraTopOpt = document.querySelectorAll('.check-extra-toppings');
+                extraTopOpt.forEach(item => {
+                    if(item.checked){
+                        extraTopPizza.push(item.getAttribute("data-id"));
+                    }
+                });
+                
+                item = {
+                    name: document.getElementById('name').value,
+                    price: document.getElementById('price').value * 100,
+                    size: sizePizza,
+                    isGlutenFree: (document.getElementById('no-glutenfree').checked) ? "false" : "true",
+                    imageUrl: (document.getElementById('imageUrl').value === "") ? "" : document.getElementById('imageUrl').value,
+                    ingredients: ingredPizza,
+                    extraToppings: extraTopPizza
+                };
+            }
+            let jsonData = JSON.stringify(item);
             console.log(jsonData);
+            console.log(mode);
 
             // include a new ingredient
             //create a Request Object
+            let reqMethod = "";
+
+            if(mode === 'add') 
+                reqMethod = 'POST';
+            else
+                reqMethod = 'PUT';
+
             let req = new Request(url, {
                 headers: headers,
-                method: (mode === 'add') ? 'POST' : 'PUT',
+                method: reqMethod,
                 mode: 'cors',
                 body: jsonData
             });
+
             fetch(req)
                 .then(response => {
                     if (response.ok) {
@@ -943,19 +1210,19 @@ let webPizza = {
                     }
                 })
                 .then(result => {
-                    console.log("success");
+                    //console.log("success");
                     let data = result.data;
                     console.log(result.data);
 
                     // msg success to include
                     if(mode === 'add') {
-                        alert(Ingredient.name + " ingredient included successfully!");
+                        alert(item.name + " " + typeItem.substr(0, typeItem.length-1) + " included successfully!");
                     } else {
-                        alert(Ingredient.name + " ingredient updated successfully!");
+                        alert(item.name + " " + typeItem.substr(0, typeItem.length-1) + " updated successfully!");
                     }
 
                     // call ingredients list page for the logged-in user
-                    document.location.href = "/admin/ingredients.html";
+                    document.location.href = "/admin/" + typeItem + ".html";
                 })
                 .catch(err => {
                     //there will be an error because this is not a valid URL
@@ -1015,6 +1282,7 @@ let webPizza = {
                 if(!data.isStaff){
                     // if user is not a staff, load the sign in page again
                     alert("Only staff users have access to this system.");
+                    webPizza.displayMessage("info","Only staff users have access to this system.");
                     webPizza.prepareInitialScreen();
                 } else {
                     // call pizza list page for the logged-in user
@@ -1054,6 +1322,23 @@ let webPizza = {
         localStorage.removeItem(webPizza.KEY);
         // call sign in page
         document.location.href = "/sign-in.html";
+    },
+    updatePizzaPrice: function(ev){
+        //ev.preventDefault();
+
+        let ingredPrice = parseFloat(ev.currentTarget.getAttribute("data-price"));
+        let pizzaPrice = 0;
+        if(document.getElementById('price').value !== ""){
+            pizzaPrice = parseFloat(document.getElementById('price').value);
+        };
+        if(ev.currentTarget.checked){
+            // add ingred price to pizza price
+            pizzaPrice = pizzaPrice + ingredPrice;
+        } else {
+            // remove ingred price from pizza price
+            pizzaPrice = pizzaPrice - ingredPrice;
+        }
+        document.getElementById('price').value = parseFloat(pizzaPrice).toFixed(2);
     },
     validateInputFields: function() {
         // Validate input fields
@@ -1123,6 +1408,29 @@ let webPizza = {
                         // validate URL
                         // if()...
                         //invalidInput.push({input: 'quantity', msg: 'Quantity must be between 0 and 1000.'});
+                    }
+                } else {
+                    if (document.getElementById("form-pizza-edit") !== null) {
+                        let name = document.getElementById('name');
+                        if (name.value === "") {
+                            invalidInput.push({input: 'name', msg: 'Name is required.'});
+                        }
+                        let price = document.getElementById('price');
+                        if (price.value === "") {
+                            price.value = 10.00;
+                        } else {
+                            let ingredPrice = parseInt(price.value * 100);
+                            if(ingredPrice < 1000 || ingredPrice > 10000){
+                                invalidInput.push({input: 'price', msg: 'Price must be between $10 and $100.00. Choose Ingredients and Extra Toppings.'});
+                            }
+                        }
+                        // validate URL
+                        let url = document.getElementById('imageUrl');
+                        if (url.value !== ""){
+                            // validate URL
+                            // if()...
+                            //invalidInput.push({input: 'quantity', msg: 'Quantity must be between 0 and 1000.'});
+                        }
                     }
                 }
             }

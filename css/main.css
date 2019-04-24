@@ -240,4 +240,12 @@ main {
 .btn-edit {
     margin-right: 10px;
 }
-
+.alert{
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    transition: transform 5s;
+}
+.alert-show{
+    transform: translateY(250px);
+}
