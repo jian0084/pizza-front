@@ -156,7 +156,7 @@ let webPizza = {
                 console.log(queryString);
             }
             // call item (ingredient or pizza) detail page (add/edit)
-            document.location.href = "/admin/" + typeItem + "-edit.html" + queryString;
+            document.location.href = "./admin/" + typeItem + "-edit.html" + queryString;
         } 
     },
     callListScreen: function(){
@@ -168,7 +168,7 @@ let webPizza = {
                 typeItem = "pizzas";
             }
         }
-        document.location.href = "/admin/" + typeItem + ".html";
+        document.location.href = "./admin/" + typeItem + ".html";
     },
     changePassword: function(ev){
         ev.preventDefault();
@@ -1224,7 +1224,7 @@ let webPizza = {
                     }
 
                     // call ingredients list page for the logged-in user
-                    document.location.href = "/admin/" + typeItem + ".html";
+                    document.location.href = "./admin/" + typeItem + ".html";
                 })
                 .catch(err => {
                     //there will be an error because this is not a valid URL
@@ -1288,7 +1288,7 @@ let webPizza = {
                     webPizza.prepareInitialScreen();
                 } else {
                     // call pizza list page for the logged-in user
-                    document.location.href = "/admin/pizzas.html";
+                    document.location.href = "./admin/pizzas.html";
                 };
             
             })
