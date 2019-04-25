@@ -99,7 +99,8 @@ header .hd-title {
 */
 
 .btn-signin,
-    .btn-signup {
+.btn-signup 
+{
     color: var(--white);
     background-color: var(--dkred);
     border-color: var(--dkred);
@@ -235,7 +236,7 @@ footer {
 }
 
 main {
-    min-height: 760px;
+    min-height: 840px;
 }
 .btn-edit {
     margin-right: 10px;
@@ -248,4 +249,27 @@ main {
 }
 .alert-show{
     transform: translateY(250px);
+}
+
+
+.slide-hide {
+        box-shadow: 0 3px 6px rgba(0,0,0,0.25);
+        border: 1px solid #bbb;
+        background: -webkit-linear-gradient(top, #fff, #ddd);
+        background:    -moz-linear-gradient(top, #fff, #ddd);
+        background:         linear-gradient(top, #fff, #ddd);
+              
+        -webkit-transform: translateY(-100%);
+           -moz-transform: translateY(-100%);
+            -ms-transform: translateY(-100%);
+             -o-transform: translateY(-100%);
+                transform: translateY(-100%);
+}
+
+.slide-show {
+    -webkit-transform: translateY(0%);
+       -moz-transform: translateY(0%);
+        -ms-transform: translateY(0%);
+         -o-transform: translateY(0%);
+            transform: translateY(0%);
 }

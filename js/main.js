@@ -18,15 +18,81 @@ list a pizza (need to populate ingredient)
 
 let webPizza = {
     KEY: 'PizzaShopKey',
-    //BASEURL: 'http://mad9124.rocks',
+    // BASEURL: 'http://mad9124.rocks',
     //BASEURL: 'https://jsonplaceholder.typicode.com/',
-    BASEURL: 'http://127.0.0.1:3030',
+    // BASEURL: 'http://127.0.0.1:3030',
+    BASEURL: 'http://jian0084.edumedia.ca',
     init: function () {
         document.addEventListener("DOMContentLoaded", webPizza.ready,false);
     },
     ready: function () {
         webPizza.prepareInitialScreen();
         webPizza.addListeners();
+    },
+
+    prepareInitialScreen: function(){
+        console.log('prepareInitialScreen');
+
+        // check if sign in page is loaded
+        if(document.getElementById("form-sign-in") !== null){
+            // reset form fields
+            document.querySelector('.form-account').reset();
+            document.getElementById('email').focus();
+        } else {
+            if(document.getElementById("form-register") !== null){
+                // reset form fields
+                document.querySelector('.form-account').reset();
+                document.getElementById('first-name').focus();
+            }
+        }
+
+        let token = JSON.parse(localStorage.getItem(webPizza.KEY));
+        //console.log('token',token);
+
+        // Logged-in user
+        if(token !== null){
+            if(document.getElementById("form-profile") !== null){
+                console.log('form-profile');
+                // reset form fields
+                document.querySelector('.form-account').reset();
+                // fill out the profile form
+                webPizza.loadProfile();
+                document.getElementById('newPwd').focus();
+            } else {
+                if (document.getElementById("form-pizzas") !== null || document.getElementById("form-ingredients") !== null) {          
+                    let token = JSON.parse(localStorage.getItem(webPizza.KEY));
+                    console.log('list');
+                    
+                    // Logged-in user
+                    if(token !== null){
+                        document.getElementById("nav-sign-in").classList.add("hide");
+                        document.getElementById("nav-sign-out").classList.remove("hide");
+                        document.getElementById("nav-profile").classList.remove("hide");
+                    }
+                    webPizza.listAll();
+                } else {
+                    if (document.getElementById("form-ingredient-edit") !== null || document.getElementById("form-pizza-edit") !== null){
+                        //console.log('add/edit page')
+                        // reset form fields
+                        document.querySelector('.form-add-edit').reset();
+
+                        // check if it's in edit mode (there's a id)
+                        let urlParams = new URLSearchParams(document.location.search);
+                        if(urlParams.has('id')) {
+                            // fill out the item (ingredient or pizza) form
+                            webPizza.loadAnItem();
+                        };
+
+                        // if pizza add/edit page then load ingredients and extra toppings options
+                        if(document.getElementById("form-pizza-edit") !== null) {
+                            webPizza.loadIngredOptions();
+                        }
+
+                        document.getElementById('name').focus();
+                    }
+                }
+            }
+        }
     },
     addListeners: function(){
         // Add Event Listeners of Sign In page
@@ -159,7 +225,6 @@ let webPizza = {
 
                     // msg success to include
                     alert("Password changed successfully.");
-
                     // call sign in page???
                     document.location.href = "/sign-in.html";
                     
@@ -881,70 +946,7 @@ let webPizza = {
             alert(err.message);
         })
     },
-    prepareInitialScreen: function(){
-        console.log('prepareInitialScreen');
-
-        // check if sign in page is loaded
-        if(document.getElementById("form-sign-in") !== null){
-            // reset form fields
-            document.querySelector('.form-account').reset();
-            document.getElementById('email').focus();
-        } else {
-            if(document.getElementById("form-register") !== null){
-                // reset form fields
-                document.querySelector('.form-account').reset();
-                document.getElementById('first-name').focus();
-            }
-        }
-
-        let token = JSON.parse(localStorage.getItem(webPizza.KEY));
-        //console.log('token',token);
-
-        // Logged-in user
-        if(token !== null){
-            if(document.getElementById("form-profile") !== null){
-                console.log('form-profile');
-                // reset form fields
-                document.querySelector('.form-account').reset();
-                // fill out the profile form
-                webPizza.loadProfile();
-                document.getElementById('newPwd').focus();
-            } else {
-                if (document.getElementById("form-pizzas") !== null || document.getElementById("form-ingredients") !== null) {          
-                    let token = JSON.parse(localStorage.getItem(webPizza.KEY));
-                    console.log('list');
-                    
-                    // Logged-in user
-                    if(token !== null){
-                        document.getElementById("nav-sign-in").classList.add("hide");
-                        document.getElementById("nav-sign-out").classList.remove("hide");
-                        document.getElementById("nav-profile").classList.remove("hide");
-                    }
-                    webPizza.listAll();
-                } else {
-                    if (document.getElementById("form-ingredient-edit") !== null || document.getElementById("form-pizza-edit") !== null){
-                        //console.log('add/edit page')
-                        // reset form fields
-                        document.querySelector('.form-add-edit').reset();
-
-                        // check if it's in edit mode (there's a id)
-                        let urlParams = new URLSearchParams(document.location.search);
-                        if(urlParams.has('id')) {
-                            // fill out the item (ingredient or pizza) form
-                            webPizza.loadAnItem();
-                        };
-
-                        // if pizza add/edit page then load ingredients and extra toppings options
-                        if(document.getElementById("form-pizza-edit") !== null) {
-                            webPizza.loadIngredOptions();
-                        }
-
-                        document.getElementById('name').focus();
-                    }
-                }
-            }
-        }
-    },
+ 
     registerUser: function(ev){
         ev.preventDefault();
 
