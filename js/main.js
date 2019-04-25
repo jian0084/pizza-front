@@ -81,12 +81,12 @@ let webPizza = {
                         if(urlParams.has('id')) {
                             // fill out the item (ingredient or pizza) form
                             webPizza.loadAnItem();
+                        } else {
+                            // if pizza add/edit page then load ingredients and extra toppings options
+                            if(document.getElementById("form-pizza-edit") !== null) {
+                                webPizza.loadIngredOptions();
+                            }
                         };
-
-                        // if pizza add/edit page then load ingredients and extra toppings options
-                        if(document.getElementById("form-pizza-edit") !== null) {
-                            webPizza.loadIngredOptions();
-                        }
 
                         document.getElementById('name').focus();
                     }
@@ -156,7 +156,8 @@ let webPizza = {
                 console.log(queryString);
             }
             // call item (ingredient or pizza) detail page (add/edit)
-            document.location.href = "./admin/" + typeItem + "-edit.html" + queryString;
+            //document.location.href = "./admin/" + typeItem + "-edit.html" + queryString;
+            document.location.href = "./" + typeItem + "-edit.html" + queryString;
         } 
     },
     callListScreen: function(){
@@ -168,7 +169,8 @@ let webPizza = {
                 typeItem = "pizzas";
             }
         }
-        document.location.href = "./admin/" + typeItem + ".html";
+        //document.location.href = "./admin/" + typeItem + ".html";
+        document.location.href = "./" + typeItem + ".html";
     },
     changePassword: function(ev){
         ev.preventDefault();
@@ -414,6 +416,7 @@ let webPizza = {
 
     },
     doLogin: function(ev) {
+        console.log(ev);
         ev.preventDefault();
 
         //console.log("doLogin");
@@ -430,6 +433,7 @@ let webPizza = {
             
             //define the end point for the request
             let url = webPizza.BASEURL + "/auth/tokens";
+            console.log(url);
 
             //prepare the data to send to the server
             let LoggedInUser = {
@@ -437,7 +441,7 @@ let webPizza = {
                 password: document.getElementById('password').value
             };
             let jsonData = JSON.stringify(LoggedInUser);
-            //console.log(jsonData);
+            console.log(jsonData);
 
             //create a Headers object
             let headers = new Headers();
@@ -756,22 +760,9 @@ let webPizza = {
                             document.getElementById('extra-large').checked = true;
                             break;
                     }
-                    webPizza.loadIngredOptions();
-                    if(data.ingredients.length > 0){
-                        let ingredPizza = data.ingredients;
-                        ingredPizza.forEach(item => {
-                            console.log('item ',item._id,item.name);
-                            //let checkIngred = document.querySelectorAll('.check-ingred')
-                            let checkIngred = document.getElementById(item._id);
-                            console.log(checkIngred.checked);
-                            checkIngred.checked = true;
-                            console.log(checkIngred.checked);
-                            
-                        })
-                    };
-                    if(data.extraToppings.length > 0){
-                        console.log('extraToppings',data.extraToppings)
-                    };
+                    let ingredPizza = data.ingredients;
+                    let extraTopPizza = data.extraToppings;
+                    webPizza.loadIngredOptions(ingredPizza, extraTopPizza);
                 }
             })
             .catch(err => {
@@ -781,7 +772,7 @@ let webPizza = {
             })
         }
     },
-    loadIngredOptions: function(){
+    loadIngredOptions: function(ingredPizza = [], extraTopPizza = []){
         // select all ingredients
         //define the end point for the request
         let url = webPizza.BASEURL + "/api/ingredients";
@@ -845,17 +836,16 @@ let webPizza = {
                     div1.className = "form-check form-ingred-option"
                     let input1 = document.createElement('input');
                     input1.className = "form-check-input check-ingred";
-                    input1.id = obj._id;
                     input1.type = "checkbox";
                     input1.setAttribute("value", obj.name);
                     input1.setAttribute("data-id", obj._id);
                     input1.setAttribute("data-price", parseFloat(obj.price/100).toFixed(2));
-                    //input1.id = "defaultCheck" + counter;
+                    input1.id = "defaultCheck" + counter;
+                    input1.classList.add(obj._id);
 
                     let label1 = document.createElement('label');              
                     label1.className = "form-check-label";
-                    //label1.setAttribute("for","defaultCheck" + counter);
-                    label1.setAttribute("for",obj._id);
+                    label1.setAttribute("for","defaultCheck" + counter);
                     label1.textContent = obj.name;
                     
                     div1.appendChild(input1);
@@ -866,12 +856,12 @@ let webPizza = {
                     div2.className = "form-check form-extra-option"
                     let input2 = document.createElement('input');
                     input2.className = "form-check-input check-extra-toppings";
-                    input2.id = obj._id;
                     input2.type = "checkbox";
                     input2.setAttribute("value", obj.name);
                     input2.setAttribute("data-id", obj._id);
                     input2.setAttribute("data-price", parseFloat(obj.price/100).toFixed(2));
                     input2.id = "defaultCheckExtra" + counter;
+                    input2.classList.add(obj._id);
 
                     let label2 = document.createElement('label');              
                     label2.className = "form-check-label";
@@ -893,6 +883,40 @@ let webPizza = {
                         item.addEventListener("click", webPizza.updatePizzaPrice);
                     })
                 }
+                // check if there are ingredients for a pizza (page for edit)
+                //console.log(ingredPizza);
+                let checkIngred = [];
+                checkIngred = document.querySelectorAll(".check-ingred");
+                if(ingredPizza.length > 0){
+                    ingredPizza.forEach(item => {
+                        //console.log('item ',item._id,item.name);
+                        checkIngred.forEach( opt => {
+                            //console.log(opt);
+                            if(opt.classList.contains(item._id)){
+                                opt.checked = true;
+                                //console.log(opt.checked);
+                            }
+                        })
+                    })
+                };
+                
+                // check if there are extra toppings for a pizza (page for edit)
+                //console.log(extraTopPizza);
+                let chkExtra = [];
+                chkExtra = document.querySelectorAll(".check-extra-toppings");
+                //console.log(chkExtra);
+                if(extraTopPizza.length > 0){
+                    extraTopPizza.forEach(item => {
+                        //console.log('extra ',item);
+                        chkExtra.forEach( opt => {
+                            //console.log(opt);
+                            if(opt.classList.contains(item)){
+                                opt.checked = true;
+                                //console.log(opt.checked);
+                            }
+                        })
+                    })
+                };
             })
             .catch(err => {
                 //there will be an error because this is not a valid URL
@@ -1007,14 +1031,17 @@ let webPizza = {
                     let data = result.data;
                     console.log(data);
 
-                    if(data.isStaff){
-                        // Get Logged-in User???
-                        // Get Logged-in User and retrieve a valid token???? Does it depend on the user isStaff flag?
-                        webPizzal.doLogin();
-                    } else {
-                        // call sign in page
-                        document.location.href = "/sign-in.html";
-                    }        
+                    // if(data.isStaff){
+                    //     // Get Logged-in User???
+                    //     // Get Logged-in User and retrieve a valid token???? Does it depend on the user isStaff flag?
+                    //     webPizzal.doLogin();
+                    // } else {
+                    //     // call sign in page
+                    //     document.location.href = "/sign-in.html";
+                    // }
+
+                    // login for any kind of user
+                    webPizza.doLogin(ev);
                 })
                 .catch(err => {
                     //there will be an error because this is not a valid URL
@@ -1224,7 +1251,8 @@ let webPizza = {
                     }
 
                     // call ingredients list page for the logged-in user
-                    document.location.href = "./admin/" + typeItem + ".html";
+                    //document.location.href = "./admin/" + typeItem + ".html";
+                    document.location.href = "./" + typeItem + ".html";
                 })
                 .catch(err => {
                     //there will be an error because this is not a valid URL
@@ -1283,9 +1311,11 @@ let webPizza = {
                 //console.log('isStaff', data.isStaff);
                 if(!data.isStaff){
                     // if user is not a staff, load the sign in page again
-                    alert("Only staff users have access to this system.");
-                    webPizza.displayMessage("info","Only staff users have access to this system.");
-                    webPizza.prepareInitialScreen();
+                    // alert("Only staff users have access to this system.");
+                    // webPizza.displayMessage("info","Only staff users have access to this system.");
+                    // webPizza.prepareInitialScreen();
+                    // call home page
+                    document.location.href = "./index.html";
                 } else {
                     // call pizza list page for the logged-in user
                     document.location.href = "./admin/pizzas.html";
