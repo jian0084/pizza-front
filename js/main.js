@@ -14,6 +14,8 @@ Not isStaff users can access list pizzas/ingredients? Review prepareInitialScree
 discuss the navbar items after sign in (sign out/sign up/profile) on each screen
 
 list a pizza (need to populate ingredient)
+
+redirecionar para sign in qdo clicar em ingredients/pizzas e nao tiver token
 */
 
 let webPizza = {
@@ -33,6 +35,9 @@ let webPizza = {
     prepareInitialScreen: function(){
         //console.log('prepareInitialScreen');
 
+        //create div message
+        //webPizza.createDivMessage();
+
         //let token = JSON.parse(localStorage.getItem(webPizza.KEY));
         let token = null;
         let isStaff = "";
@@ -49,6 +54,9 @@ let webPizza = {
         if(token !== null){
             if(document.getElementById("nav-sign-in") !== null)
                 document.getElementById("nav-sign-in").classList.add("hide");
+
+            if(document.getElementById("nav-sign-up") !== null)
+                document.getElementById("nav-sign-up").classList.add("hide");
             
             if(document.getElementById("nav-sign-out") !== null)
                 document.getElementById("nav-sign-out").classList.remove("hide"); 
@@ -59,6 +67,9 @@ let webPizza = {
             console.log(document.getElementById("nav-sign-in"));
             if(document.getElementById("nav-sign-in") !== null)
                 document.getElementById("nav-sign-in").classList.remove("hide");
+
+            if(document.getElementById("nav-sign-up") !== null)
+                document.getElementById("nav-sign-up").classList.remove("hide");
             
             if(document.getElementById("nav-sign-out") !== null)
                 document.getElementById("nav-sign-out").classList.add("hide"); 
@@ -98,7 +109,12 @@ let webPizza = {
                     if(isStaff === true){
                         webPizza.listAll();
                     } else {
-                        alert('Only staff customer has access to this page');
+                         alert('Only staff customer has access to this page');
+                        let type = 'info';
+                        let title = 'Staff access';
+                        let msg = 'Only staff customer has access to this page';
+                        console.log("before calling display func",type, title, msg);
+                        //webPizza.displayMessage(type, title, msg);
                     }
                     
                 } else {
@@ -156,14 +172,7 @@ let webPizza = {
                             document.getElementById('btn-back').addEventListener('click', webPizza.callListScreen);
                             document.getElementById('btn-save').addEventListener('click', webPizza.saveItem);
                             document.getElementById('price').addEventListener('blur', webPizza.formatCurrency);
-                        }  else {
-                            if(document.getElementById('form-index')){
-                                //document.getElementById('nav-ingredients').addEventListener('click', webPizza.setMenuItems);
-                                document.getElementById('nav-ingredients').addEventListener('click', function(){
-                                    console.log('ingredients option');
-                                });
-                            }
-                        }
+                        } 
                     }
                 }
             }
@@ -175,6 +184,10 @@ let webPizza = {
             //console.log("Sign out");
             signout.addEventListener('click', webPizza.signOut);
         }
+        // let modal = document.querySelector("modal");
+        // if(modal !== null){
+        //     document.querySelector(".closeButton").addEventListener('click', webPizza.closeModal);
+        // }
     },
     callDetailItem: function(ev){
         ev.preventDefault();
@@ -273,6 +286,7 @@ let webPizza = {
 
                     // msg success to include
                     alert("Password changed successfully.");
+                    
                     // call sign in page???
                     document.location.href = "/sign-in.html";
                     
@@ -293,6 +307,11 @@ let webPizza = {
                 failField.parentElement.appendChild(invalidMsg);    
             })
         }
+    },
+    closeModal: function(){
+        let modal = document.querySelector(".modal");
+        modal.classList.remove('on');
+        modal.classList.add('off');
     },
     deleteItem: function(ev){
         ev.preventDefault();
@@ -368,43 +387,103 @@ let webPizza = {
                 })
         }
     },
-    displayMessage: function(type, msg){
-        let alertType = "";
+    createDivMessage: function(){
+        let main = document.querySelector('.container');
+        console.log(main)
+        let div1 = document.createElement('div')
+      
+        div1.className = "modal";
+        div1.classList.add("off");
+        // console.log('div1', div1);
+        let div2 = document.createElement('div');
+        div2.className = "modal-header";
+        // div2.style.color = "#990000";
+        let h3 = document.createElement('h3');
+        h3.textContent = "title";       
+        
+        div2.appendChild(h3);
+
+        let div3 = document.createElement('div');
+        div3.className = "modal-body";
+        let p1 = document.createElement('p');
+        p1.textContent = "msg";
+
+        div3.appendChild(p1);
+
+        let div4 = document.createElement('div');
+        div4.className = "modal-footer";
+        let btn1 = document.createElement('button');
+        btn1.className = "closeButton btn btn-danger";
+        btn1.textContent = "Close";
+
+        div4.appendChild(btn1);
+        div1.appendChild(div2);
+        div1.appendChild(div3);
+        div1.appendChild(div4);
+
+        main.appendChild(div1);
+
+        // console.log(div1);
+        console.log(main);
+
+        document.querySelector(".closeButton").addEventListener('click', webPizza.closeModal);
+    },
+
+    displayMessage: function(type, title, msg){
+        let titleColor = "";
+        let titleBackColor = "";
+        let btnClose = "";
+
+        let button = document.querySelector('.closeButton');
+        if(button.classList.contains('btn-warning')){
+            button.classList.remove('btn-warning');
+        }
+        if(button.classList.contains('btn-success')){
+            button.classList.remove('btn-success');
+        }
+        if(button.classList.contains('btn-danger')){
+            button.classList.remove('btn-danger');
+        }
+
         switch (type){
             case "info": 
-                alertType = "alert-info";
+                titleColor = "#b38f00";
+                titleBackColor = "#fff5cc";
+                btnClose = "btn-warning";
                 break;
             case "success": 
-                alertType = "alert-success";
+                titleColor = "#215f21";
+                titleBackColor = "#d9f2d9";
+                btnClose = "btn-success";
                 break;
             case "error": 
-                alertType = "alert-info";
+                titleColor = "#990000";
+                titleBackColor = "";
+                btnClose = "btn-danger";
                 break;
             default:
-                alertType = "alert-info";
+                titleColor = "#303030";
         } 
         
-        let div = document.createElement('div');
-        div.className = 'alert ' + alertType + ' alert-dismissible';
-        div.setAttribute = 'alert';
-        div.textContent = msg;
-        let btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'close';
-        btn.setAttribute('data-dismiss', 'alert');
-        btn.innerHTML = "&times;";
+        let header = document.querySelector('.modal-header');
+        header.style.color =  titleColor;   
+        header.style.backgroundColor =  titleBackColor; 
+        header.style.borderBottomColor =  titleColor; 
 
-        div.appendChild(btn);
-        console.log(div);
+        let modalTitle = document.querySelector('.modal-header h3');
+        modalTitle.textContent = title;
+
+        let body = document.querySelector('.modal-body p');
+        body.textContent = msg;
+
+        button.classList.add(btnClose);
         
 
-        let body = document.querySelector('body');
-        body.insertBefore(div,body.childNodes[0]);
-        console.log(body);
+        let modal = document.querySelector('.modal');
+        modal.classList.remove("off");
+        modal.classList.add("on");
 
-        let alert = document.querySelector('.alert');
-        alert.classList.add("alert-show");
-
+        console.log(modal);
     },
     doLogin: function(ev) {
         console.log(ev);
@@ -1264,7 +1343,7 @@ let webPizza = {
                         }
                     }
                 }
-                console.log('sizePizza',sizePizza);
+                //console.log('sizePizza',sizePizza);
 
                 let ingredPizza = [];
                 let ingredOpt = document.querySelectorAll('.check-ingred');
@@ -1299,11 +1378,12 @@ let webPizza = {
             //create a Request Object
             let reqMethod = "";
 
-            if(mode === 'add') 
+            if(mode === 'add') {
                 reqMethod = 'POST';
-            else
+            }
+            else{
                 reqMethod = 'PUT';
-
+            }
             let req = new Request(url, {
                 headers: headers,
                 method: reqMethod,
@@ -1494,6 +1574,7 @@ let webPizza = {
         //console.log(invalidInput);
         return invalidInput;
     }
+    
 }
 
 webPizza.init();
