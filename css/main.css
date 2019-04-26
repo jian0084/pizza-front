@@ -326,3 +326,7 @@ h4 {
 #show-password {
     margin-top: 0 !important
 }
+
+#signup {
+    height: 680px;
+}
