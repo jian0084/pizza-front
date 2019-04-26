@@ -77,7 +77,7 @@
                     <label for="size">Size:&nbsp;&nbsp;&nbsp;</label>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="inlineRadioOptions" id="small" value="small">
-                        <label class="form-check-label" for="inlineRadio1">Small</label>
+                        <label class="form-check-label" id="small-label" for="inlineRadio1">Small</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="inlineRadioOptions" id="medium" value="medium">
@@ -111,11 +111,11 @@
                 <div class="form-group col-10">
                     <div class="row">
                         <div class="col">
-                            <legend class="col col-form-label">Ingredients</legend>
+                            <legend class="col col-form-label ingre" style="font-weight:bold">Ingredients</legend>
                             <div class="ingred-option-input"></div>
                         </div>
                         <div class="col">
-                            <legend class="col col-form-label">Extra Toppings</legend>
+                            <legend class="col col-form-label ingre" style="font-weight:bold">Extra Toppings</legend>
                             <div class="extra-toppings-option-input"></div>
                         </div>
                         <!-- <div class="form-group col-8" id="ingredients-input">
@@ -133,8 +133,8 @@
                     <input type="text" class="form-control" disabled id="price" name="price" id="price">
                 </div>
 
-                <div class="row form-group">
-                    <div class="col-sm-10 mx-auto my-4">
+                <div class="d-flex row form-group edit-btn-group">
+                    <div class="col mx-auto my-4 justify-content-center">
                         <button type="button" class="button-edit btn btn-secondary btn-md" id="btn-back"><span>Back to Pizza List</span></button>
                         <button type="button" class="button-edit btn btn-danger btn-md mt-2" id="btn-save"><span>Save Pizza</span></button>
                     </div>

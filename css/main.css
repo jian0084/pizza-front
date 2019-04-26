@@ -126,11 +126,13 @@ form {
     max-width: 600px;
     margin: 0 auto;
     padding: 2rem auto;
+    font-size: var(--FS4);
 }
 
 .form-group label,
 legend {
     color: var(--dkred);
+    border: none;
 }
 
 /*Extra small devices (portrait phones, less than 576px)*/
@@ -169,7 +171,7 @@ legend {
     }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 800px) {
     #brand h1 {
         font-size: 30px;
     }
@@ -241,8 +243,10 @@ footer {
 }
 
 .button-edit {
+    display: block;
+    margin: 0 auto;
     width: 260px;
-    margin: 0 2rem 0 0;
+    /* margin: 0 2rem 0 0; */
     transition: all 0.5s;
     cursor: pointer;
 }
@@ -269,6 +273,11 @@ main {
 .btn-edit {
     margin-right: 10px;
 }
+
+/* #btn-save {
+    color: #fff;
+    background-color: #8e0000;
+} */
 
 .submit-btn {
     margin-top: 30px;
@@ -308,6 +317,9 @@ h4 {
     justify-content:flex-start;
 }
 
+.form-check-inline {
+    margin-left: 40px !important;
+}
 
 .form-check {
     display: inline-block;
@@ -316,12 +328,19 @@ h4 {
 }
 
 .form-check-label {
-    margin-left: 1rem;
+    font-weight: normal;
+    padding: 3px;
+    min-width: 50px;
 }
-/*
-#flexer{
-    display:flex
-}*/
+.form-check-input {
+    margin-right: 0;
+    margin-left: 10rem;
+}
+
+.col-form-label {
+    /* margin-left: 0; */
+    /* padding: 0; */
+}
 
 #show-password {
     margin-top: 0 !important
@@ -329,4 +348,21 @@ h4 {
 
 #signup {
     height: 680px;
+}
+
+.edit-btn-group {
+    margin-top: 40px;
+}
+
+#small-label {
+    min-width: 20px;
+}
+
+.ingre {
+    padding: 0;
+}
+
+.label-ingred-extra {
+    margin-left: 20px;
+    min-width: 100px;
 }

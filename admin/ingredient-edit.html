@@ -46,10 +46,10 @@
             </ul>
 
             <ul class="navbar-nav navbar-right">
-                <li class="nav-item">
+                <li class="nav-item hide">
                     <a class="menu nav-link" href="../sign-in.html" id="nav-sign-in">SIGN IN</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item hide">
                     <a class="menu nav-link" href="../register.html" id="nav-sign-up">SIGN UP</a>
                 </li>
                 <li class="nav-item">
@@ -112,7 +112,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <legend class="col-form-label col-6 mx-4">Category</legend>
+                    <legend class="col-form-label col-6 mx-4" style="font-weight:bold">Category</legend>
                     <div class="form-check">
                         <div class="form-check-inline col-8 mx-4">
                             <input class="form-check-input" type="checkbox" id="meat" value="meat">
@@ -145,10 +145,10 @@
                             <label class="form-check-label col-5" for="seasonings">Seasonings</label>
                         </div>
                     </div>
-                    <div class="row form-check">
-                        <div class="col-sm-6 mx-auto my-4">
-                            <button type="button" class="btn button-edit btn-secondary btn-md" id="btn-back"><span>BACK TO INGREDIENT LIST</span></button>
-                            <button type="button" class="btn button-edit btn-danger btn-md mt-2" id="btn-save">SAVE INGREDIENT</button>
+                    <div class="d-flex row form-group edit-btn-group">
+                        <div class="col mx-auto my-4 justify-content-center">
+                            <button type="button" class="btn button-edit btn-secondary btn-md" id="btn-back"><span>Back to Ingredient List</span></button>
+                            <button type="button" class="btn button-edit btn-danger btn-md mt-2" id="btn-save">Save Ingredient</button>
                         </div>
                     </div>
                 </div>
