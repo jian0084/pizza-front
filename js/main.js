@@ -24,7 +24,6 @@ let webPizza = {
     //BASEURL: 'https://jsonplaceholder.typicode.com/',
     // BASEURL: 'http://127.0.0.1:3030',
     BASEURL: 'https://jian0084.edumedia.ca',
-    // BASEURL: 'jian0084.edumedia.ca',
     init: function () {
         document.addEventListener("DOMContentLoaded", webPizza.ready,false);
     },
@@ -37,7 +36,7 @@ let webPizza = {
         //console.log('prepareInitialScreen');
 
         //create div message
-        //webPizza.createDivMessage();
+        webPizza.createDivMessage();
 
         //let token = JSON.parse(localStorage.getItem(webPizza.KEY));
         let token = null;
@@ -110,12 +109,11 @@ let webPizza = {
                     if(isStaff === true){
                         webPizza.listAll();
                     } else {
-                         alert('Only staff customer has access to this page');
+                        //alert('Only staff customer has access to this page');
                         let type = 'info';
-                        let title = 'Staff access';
+                        let title = 'User access';
                         let msg = 'Only staff customer has access to this page';
-                        console.log("before calling display func",type, title, msg);
-                        //webPizza.displayMessage(type, title, msg);
+                        webPizza.displayMessage(type, title, msg);
                     }
                     
                 } else {
@@ -185,10 +183,10 @@ let webPizza = {
             //console.log("Sign out");
             signout.addEventListener('click', webPizza.signOut);
         }
-        // let modal = document.querySelector("modal");
-        // if(modal !== null){
-        //     document.querySelector(".closeButton").addEventListener('click', webPizza.closeModal);
-        // }
+        let modal = document.querySelector("modal");
+        if(modal !== null){
+            document.querySelector(".closeButton").addEventListener('click', webPizza.closeModal);
+        }
     },
     callDetailItem: function(ev){
         ev.preventDefault();
@@ -286,7 +284,11 @@ let webPizza = {
                     //console.log(result.data);
 
                     // msg success to include
-                    alert("Password changed successfully.");
+                    //alert("Password changed successfully.");
+                    let type = 'success';
+                    let title = 'Password';
+                    let msg = 'Password changed successfully.';
+                    webPizza.displayMessage(type, title, msg);
                     
                     // call sign in page???
                     document.location.href = "/sign-in.html";
@@ -295,7 +297,11 @@ let webPizza = {
                 .catch(err => {
                     //there will be an error because this is not a valid URL
                     console.error(err.code + ': ' + err.message);
-                    alert(err.message);
+                    //alert(err.message);
+                    let type = 'error';
+                    let title = 'Error';
+                    let msg = err.message;
+                    webPizza.displayMessage(type, title, msg);
                 })
         } else {
             // display invalid inputs
@@ -328,6 +334,11 @@ let webPizza = {
         
         // are you sure you want to delete this ingredient?
         let confDel = confirm('Are you sure you want to delete this ' + (typeItem.substr(0,typeItem.length-1)) + '?');
+        // let type = 'question';
+        // let title = 'Delete';
+        // let msg = 'Are you sure you want to delete this ' + (typeItem.substr(0,typeItem.length-1)) + '?';
+        // webPizza.displayMessage(type, title, msg);
+        
         //console.log(confDel);
 
         // delete the ingredient
@@ -376,7 +387,12 @@ let webPizza = {
                     //console.log(result.data);
 
                     // msg success to include
-                    alert(result.data.name + " " + (typeItem.substr(0,typeItem.length-1)) + " was deleted successfully.");
+                    //alert(result.data.name + " " + (typeItem.substr(0,typeItem.length-1)) + " was deleted successfully.");
+                    let type = 'success';
+                    //let title = (typeItem.substr(0,typeItem.length-1));
+                    let title = (typeItem === 'pizzas') ? 'Pizzas' : 'Ingredients'
+                    let msg = result.data.name + " " + (typeItem.substr(0,typeItem.length-1)) + " was deleted successfully.";
+                    webPizza.displayMessage(type, title, msg);
 
                     // update the list of items (pizzas or ingredients)
                     webPizza.listAll();
@@ -384,12 +400,17 @@ let webPizza = {
                 .catch(err => {
                     //there will be an error because this is not a valid URL
                     console.error(err.code + ': ' + err.message);
-                    alert(err.message);
+                    //alert(err.message);
+                    let type = 'error';
+                    let title = 'Error';
+                    let msg = err.message;
+                    webPizza.displayMessage(type, title, msg);
                 })
         }
     },
     createDivMessage: function(){
-        let main = document.querySelector('.container');
+        //let main = document.querySelector('.container');
+        let main = document.querySelector('main');
         console.log(main)
         let div1 = document.createElement('div')
       
@@ -429,7 +450,6 @@ let webPizza = {
 
         document.querySelector(".closeButton").addEventListener('click', webPizza.closeModal);
     },
-
     displayMessage: function(type, title, msg){
         let titleColor = "";
         let titleBackColor = "";
@@ -459,11 +479,13 @@ let webPizza = {
                 break;
             case "error": 
                 titleColor = "#990000";
-                titleBackColor = "";
+                titleBackColor = "#ffe6e6";
                 btnClose = "btn-danger";
                 break;
             default:
-                titleColor = "#303030";
+                titleColor = "#000000";
+                titleBackColor = "#e6e6e6";
+                btnClose = "btn-primary";
         } 
         
         let header = document.querySelector('.modal-header');
@@ -477,17 +499,16 @@ let webPizza = {
         let body = document.querySelector('.modal-body p');
         body.textContent = msg;
 
-        button.classList.add(btnClose);
-        
+        button.classList.add(btnClose);      
 
         let modal = document.querySelector('.modal');
         modal.classList.remove("off");
         modal.classList.add("on");
 
-        console.log(modal);
+        //console.log(modal);
     },
     doLogin: function(ev) {
-        console.log(ev);
+        //console.log(ev);
         ev.preventDefault();
 
         //console.log("doLogin");
@@ -602,13 +623,21 @@ let webPizza = {
                         .catch(err => {
                             //there will be an error because this is not a valid URL
                             console.error(err.code + ': ' + err.message);
-                            alert(err.message);
+                            //alert(err.message);
+                            let type = 'error';
+                            let title = 'Error';
+                            let msg = err.message;
+                            webPizza.displayMessage(type, title, msg);
                         })
                 })        
                 .catch(err => {
                     //there will be an error because this is not a valid URL
                     console.error(err.code + ': ' + err.message);
-                    alert(err.message);
+                    //alert(err.message);
+                    let type = 'error';
+                    let title = 'Error';
+                    let msg = err.message;
+                    webPizza.displayMessage(type, title, msg);
                 })        
         } else {
             // display invalid inputs
@@ -781,7 +810,11 @@ let webPizza = {
             .catch(err => {
                 //there will be an error because this is not a valid URL
                 console.error(err.code + ': ' + err.message);
-                alert(err.message);
+                //alert(err.message);
+                let type = 'error';
+                let title = 'Error';
+                let msg = err.message;
+                webPizza.displayMessage(type, title, msg);
             })
     },
     loadAnItem: function(ev){
@@ -908,7 +941,11 @@ let webPizza = {
             .catch(err => {
                 //there will be an error because this is not a valid URL
                 console.error(err.code + ': ' + err.message);
-                alert(err.message);
+                //alert(err.message);
+                let type = 'error';
+                let title = 'Error';
+                let msg = err.message;
+                webPizza.displayMessage(type, title, msg);
             })
         }
     },
@@ -991,7 +1028,7 @@ let webPizza = {
                     input1.classList.add(obj._id);
 
                     let label1 = document.createElement('label');              
-                    label1.className = "form-check-label";
+                    label1.className = "form-check-label label-ingred-extra";
                     label1.setAttribute("for","defaultCheck" + counter);
                     label1.textContent = obj.name;
                     
@@ -1011,7 +1048,7 @@ let webPizza = {
                     input2.classList.add(obj._id);
 
                     let label2 = document.createElement('label');              
-                    label2.className = "form-check-label";
+                    label2.className = "form-check-label label-ingred-extra";
                     label2.setAttribute("for","defaultCheckExtra" + counter);
                     label2.textContent = obj.name;
                     
@@ -1068,7 +1105,11 @@ let webPizza = {
             .catch(err => {
                 //there will be an error because this is not a valid URL
                 console.error(err.code + ': ' + err.message);
-                alert(err.message);
+                //alert(err.message);
+                let type = 'error';
+                let title = 'Error';
+                let msg = err.message;
+                webPizza.displayMessage(type, title, msg);
             })
     },
     loadProfile: function(){
@@ -1121,7 +1162,11 @@ let webPizza = {
         .catch(err => {
             //there will be an error because this is not a valid URL
             console.error(err.code + ': ' + err.message);
-            alert(err.message);
+            //alert(err.message);
+            let type = 'error';
+            let title = 'Error';
+            let msg = err.message;
+            webPizza.displayMessage(type, title, msg);
         })
     },
  
@@ -1200,26 +1245,11 @@ let webPizza = {
                 .catch(err => {
                     //there will be an error because this is not a valid URL
                     console.error(err.code + ': ' + err.message);
-                    alert(err.message);
-                    
-                    // let body = document.querySelector('.form-account');
-                    // let div1 = document.createElement('div');
-                    // div1.className = 'modal';
-                    // div1.setAttribute('role','dialog');
-                    // let div2 = document.createElement('div');
-                    // div2.className = 'modal-dialog';
-                    // div2.setAttribute('role','document');
-                    // let div3 = document.createElement('div');
-                    // div3.className = 'mmodal-content';
-                    // div3.textContent = 'Error';
-                    // div2.appendChild(div3);
-                    // div1.appendChild(div2);
-                    // body.appendChild(div1);
-                    // console.log(body);
-
-                    // <div class="alert alert-primary" role="alert">
-                    //     A simple primary alert—check it out!
-                    // </div>
+                    //alert(err.message);
+                    let type = 'error';
+                    let title = 'Error';
+                    let msg = err.message;
+                    webPizza.displayMessage(type, title, msg);
                 })
         } else {
             // display invalid inputs
@@ -1407,9 +1437,20 @@ let webPizza = {
 
                     // msg success to include
                     if(mode === 'add') {
-                        alert(item.name + " " + typeItem.substr(0, typeItem.length-1) + " included successfully!");
+                        //alert(item.name + " " + typeItem.substr(0, typeItem.length-1) + " included successfully!");
+                        let type = 'success';
+                        //let title = typeItem.substr(0, typeItem.length-1);
+                        let title = (typeItem === 'pizzas') ? 'Pizzas' : 'Ingredients'
+                        let msg = item.name + " " + typeItem.substr(0, typeItem.length-1) + " included successfully!";
+                        webPizza.displayMessage(type, title, msg);
                     } else {
-                        alert(item.name + " " + typeItem.substr(0, typeItem.length-1) + " updated successfully!");
+                        //alert(item.name + " " + typeItem.substr(0, typeItem.length-1) + " updated successfully!");
+                        let type = 'success';
+                        //let title = typeItem.substr(0, typeItem.length-1);
+                        let title = (typeItem === 'pizzas') ? 'Pizzas' : 'Ingredients'
+                        let msg = item.name + " " + typeItem.substr(0, typeItem.length-1) + " updated successfully!";
+                        console.log(type, title, msg);
+                        webPizza.displayMessage(type, title, msg);
                     }
 
                     // call ingredients list page for the logged-in user
@@ -1419,7 +1460,11 @@ let webPizza = {
                 .catch(err => {
                     //there will be an error because this is not a valid URL
                     console.error(err.code + ': ' + err.message);
-                    alert(err.message);
+                    //alert(err.message);
+                    let type = 'error';
+                    let title = 'Error'
+                    let msg = err.message;
+                    webPizza.displayMessage(type, title, msg);
                 })
         } else {
             // display invalid inputs

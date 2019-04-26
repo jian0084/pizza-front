@@ -267,7 +267,7 @@ footer {
 }
 
 main {
-    min-height: 660px;
+    min-height: 600px;
 }
 
 .btn-edit {
@@ -345,9 +345,46 @@ h4 {
 #show-password {
     margin-top: 0 !important
 }
+.modal-header {
+    padding: 2px 16px;
+    background-color: #ffe6e6;
+    color: #990000;
+    font-weight: 900;
+    text-align: center;
+    border-bottom: 1px solid #990000;
 
-#signup {
-    height: 680px;
+}
+/* .modal {
+     position: fixed; 
+     width: 500px; 
+    height: 280px; 
+    z-index: 200000;
+    top: calc((100% - 280px)/2); 
+    left: calc((100% - 500px)/2); 
+    line-height: 1.5;
+    color: #555;
+    background-color: #eee;
+    transition: transform 1s ease-out;
+} */
+.modal {
+    z-index: 200000;
+    line-height: 1.5;
+    width: 500px;
+    height: 200px;
+    background-color: whitesmoke;
+    top: calc((100% - 280px)/2); 
+    left: calc((100% - 500px)/2); 
+    border: 1px solid black;
+    box-shadow: 5px 5px #888888;
+    transition: transform 5s ease-out;
+    text-align: center;
+}
+.modal-footer {
+    text-align: center;
+}
+.off {
+    transform: translateY(-400%);
+    display: none;
 }
 
 .edit-btn-group {
@@ -365,4 +402,8 @@ h4 {
 .label-ingred-extra {
     margin-left: 20px;
     min-width: 100px;
+}
+.on {
+    transform: translateY(0);
+    display: block;
 }
