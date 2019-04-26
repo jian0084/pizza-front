@@ -3,56 +3,65 @@
 
 <head>
     <meta charset="UTF-8">
-    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://griffis.edumedia.ca 'unsafe-eval' 'unsafe-inline'; 
-    style-src 'self' https://fonts.googleapis.com; 
-    font-src 'self' https://fonts.gstatic.com;
-    media-src *; 
-    img-src *;"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Pizza Shop</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous" />
-    <!-- Add icon library -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <!-- your CSS file link goes HERE -->
     <link rel="stylesheet" href="../css/main.css" />
 </head>
 
 <body id="form-ingredients">
-    <main>
+    <header>
         <div id="brand" class="d-flex justify-content-center mb-3">
-            <div class="p-2">
+            <div id="basil" class="p-2">
                 <img style="display: inline-block" src="../img/basil.png" width="80px" alt="">
             </div>
             <div class="p-2">
                 <h1 class="text-white" align="center" style="display: inline-block">MADD PIZZA</h1>
             </div>
         </div>
-        <div class="menu d-flex mb-3 navbar">
-            <div class="p-2 nav-item">
-                <a class="menu nav-link" href="../index.html">HOME<span class="sr-only">(current)</span></a>
-            </div>
-            <div class="p-2 nav-item">
-                <a class="menu nav-link" href="pizzas.html">PIZZA</a>
-            </div>
-            <div class="p-2 nav-item">
-                <a class="menu nav-link active text-white" href="ingredients.html">INGREDIENTS</a>
-            </div>
-            <div class="p-2 nav-item hide">
-                <a class="menu nav-link" href="order.html">ORDER</a>
-            </div>
-            <div class="p-2 nav-item ml-auto" id="nav-sign-in">
-                <a class="menu nav-link" href="../sign-in.html">SIGN IN</a>
-            </div>
-            <div class="nav-item p-2">
-                <a class="menu nav-link" href="../register.html">SIGN UP</a>
-            </div>
-            <div class="nav-item p-2 ml-auto hide" id="nav-profile">
-                <a class="menu nav-link" href="../profile.html">CHANGE PASSWORD</a>
-            </div>
-            <div class="nav-item p-2 hide" id="nav-sign-out">
-                <a class="menu nav-link" href="#">SIGN OUT</a>
-            </div>
-        </div>
+    </header>
+    <nav class="menu navbar navbar-expand-md d-flex justify-content-between">
 
+        <!-- Toggler/collapsibe Button -->
+        <button id="hamburger" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <span class="navbar-toggle-label text-white">MENU</span>
+        </button>
+
+        <!-- Navbar links -->
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="menu nav-link" href="index.html">HOME<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="menu nav-link" href="./admin/pizzas.html">PIZZA</a>
+                </li>
+                <li class="nav-item">
+                    <a class="menu nav-link active text-white" href="../admin/ingredients.html">INGREDIENTS</a>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav navbar-right">
+                <li class="nav-item">
+                    <a class="menu nav-link" href="sign-in.html">SIGN IN</a>
+                </li>
+                <li class="nav-item">
+                    <a class="menu nav-link" href="register.html">SIGN UP</a>
+                </li>
+                <li class="nav-item hide">
+                    <a class="menu nav-link" href="profile.html">CHANGE PASSWORD</a>
+                </li>
+                <li class="nav-item hide">
+                    <a class="menu nav-link" href="#">SIGN OUT</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <main class="d-flex">
         <div class="container">
             <div>
                 <button id="add" class="btn"><i class="fa fa-plus"></i> ADD AN INGREDIENT</button>
@@ -61,12 +70,7 @@
                 <table class="table">
                     <thead class="grey white-text">
                         <tr>
-                            <th scope="row">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="tableDefaultCheck1">
-                                    <label class="custom-control-label" for="tableDefaultCheck1">#</label>
-                                </div>
-                            </th>
+                            <th scope="col">#</th>
                             <th scope="col">Name</th>
                             <th scope="col">Price</th>
                             <th scope="col">Quantity</th>
