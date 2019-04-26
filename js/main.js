@@ -1493,14 +1493,7 @@ let webPizza = {
         }
         //console.log(invalidInput);
         return invalidInput;
-    },
-    
-    classToggle: function () {
-        const navs = document.querySelectorAll('.Navbar__Items');
-        navs.forEach(nav => nav.classList.toggle('Navbar__ToggleShow'));
     }
-
-document.querySelector('.Navbar__Link-toggle').addEventListener('click', classToggle);
 }
 
 webPizza.init();
