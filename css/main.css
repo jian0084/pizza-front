@@ -318,6 +318,10 @@ h4 {
 }
 
 .form-check-inline {
+    margin-left: 10px !important;
+}
+
+.category {
     margin-left: 40px !important;
 }
 
@@ -330,7 +334,7 @@ h4 {
 .form-check-label {
     font-weight: normal;
     padding: 3px;
-    min-width: 50px;
+    /* min-width: 50px; */
 }
 .form-check-input {
     margin-right: 0;
