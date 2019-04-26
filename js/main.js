@@ -1028,7 +1028,7 @@ let webPizza = {
                     input1.classList.add(obj._id);
 
                     let label1 = document.createElement('label');              
-                    label1.className = "form-check-label";
+                    label1.className = "form-check-label label-ingred-extra";
                     label1.setAttribute("for","defaultCheck" + counter);
                     label1.textContent = obj.name;
                     
@@ -1048,7 +1048,7 @@ let webPizza = {
                     input2.classList.add(obj._id);
 
                     let label2 = document.createElement('label');              
-                    label2.className = "form-check-label";
+                    label2.className = "form-check-label label-ingred-extra";
                     label2.setAttribute("for","defaultCheckExtra" + counter);
                     label2.textContent = obj.name;
                     
