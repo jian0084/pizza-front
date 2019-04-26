@@ -333,11 +333,11 @@ let webPizza = {
         }
         
         // are you sure you want to delete this ingredient?
-        //let confDel = confirm('Are you sure you want to delete this ' + (typeItem.substr(0,typeItem.length-1)) + '?');
-        let type = 'question';
-        let title = 'Delete';
-        let msg = 'Are you sure you want to delete this ' + (typeItem.substr(0,typeItem.length-1)) + '?';
-        webPizza.displayMessage(type, title, msg);
+        let confDel = confirm('Are you sure you want to delete this ' + (typeItem.substr(0,typeItem.length-1)) + '?');
+        // let type = 'question';
+        // let title = 'Delete';
+        // let msg = 'Are you sure you want to delete this ' + (typeItem.substr(0,typeItem.length-1)) + '?';
+        // webPizza.displayMessage(type, title, msg);
         
         //console.log(confDel);
 
@@ -389,7 +389,8 @@ let webPizza = {
                     // msg success to include
                     //alert(result.data.name + " " + (typeItem.substr(0,typeItem.length-1)) + " was deleted successfully.");
                     let type = 'success';
-                    let title = (typeItem.substr(0,typeItem.length-1));
+                    //let title = (typeItem.substr(0,typeItem.length-1));
+                    let title = (typeItem === 'pizzas') ? 'Pizzas' : 'Ingredients'
                     let msg = result.data.name + " " + (typeItem.substr(0,typeItem.length-1)) + " was deleted successfully.";
                     webPizza.displayMessage(type, title, msg);
 
@@ -449,7 +450,6 @@ let webPizza = {
 
         document.querySelector(".closeButton").addEventListener('click', webPizza.closeModal);
     },
-
     displayMessage: function(type, title, msg){
         let titleColor = "";
         let titleBackColor = "";
@@ -499,17 +499,16 @@ let webPizza = {
         let body = document.querySelector('.modal-body p');
         body.textContent = msg;
 
-        button.classList.add(btnClose);
-        
+        button.classList.add(btnClose);      
 
         let modal = document.querySelector('.modal');
         modal.classList.remove("off");
         modal.classList.add("on");
 
-        console.log(modal);
+        //console.log(modal);
     },
     doLogin: function(ev) {
-        console.log(ev);
+        //console.log(ev);
         ev.preventDefault();
 
         //console.log("doLogin");
@@ -1440,13 +1439,15 @@ let webPizza = {
                     if(mode === 'add') {
                         //alert(item.name + " " + typeItem.substr(0, typeItem.length-1) + " included successfully!");
                         let type = 'success';
-                        let title = typeItem.substr(0, typeItem.length-1);
+                        //let title = typeItem.substr(0, typeItem.length-1);
+                        let title = (typeItem === 'pizzas') ? 'Pizzas' : 'Ingredients'
                         let msg = item.name + " " + typeItem.substr(0, typeItem.length-1) + " included successfully!";
                         webPizza.displayMessage(type, title, msg);
                     } else {
                         //alert(item.name + " " + typeItem.substr(0, typeItem.length-1) + " updated successfully!");
                         let type = 'success';
-                        let title = typeItem.substr(0, typeItem.length-1);
+                        //let title = typeItem.substr(0, typeItem.length-1);
+                        let title = (typeItem === 'pizzas') ? 'Pizzas' : 'Ingredients'
                         let msg = item.name + " " + typeItem.substr(0, typeItem.length-1) + " updated successfully!";
                         console.log(type, title, msg);
                         webPizza.displayMessage(type, title, msg);
