@@ -31,23 +31,56 @@ let webPizza = {
     },
 
     prepareInitialScreen: function(){
-        console.log('prepareInitialScreen');
+        //console.log('prepareInitialScreen');
+
+        //let token = JSON.parse(localStorage.getItem(webPizza.KEY));
+        let token = null;
+        let isStaff = "";
+        let objToken = {};
+        objToken = localStorage.getItem(webPizza.KEY);
+        if (objToken) {
+            objToken = JSON.parse(objToken);
+            //console.log('token',objToken);
+            token = objToken.token;
+            isStaff = objToken.isStaff;
+        }
+
+        // Logged-in user
+        if(token !== null){
+            if(document.getElementById("nav-sign-in") !== null)
+                document.getElementById("nav-sign-in").classList.add("hide");
+            
+            if(document.getElementById("nav-sign-out") !== null)
+                document.getElementById("nav-sign-out").classList.remove("hide"); 
+
+            if(document.getElementById("nav-profile") !== null)
+                document.getElementById("nav-profile").classList.remove("hide");
+        } else {
+            console.log(document.getElementById("nav-sign-in"));
+            if(document.getElementById("nav-sign-in") !== null)
+                document.getElementById("nav-sign-in").classList.remove("hide");
+            
+            if(document.getElementById("nav-sign-out") !== null)
+                document.getElementById("nav-sign-out").classList.add("hide"); 
+
+            if(document.getElementById("nav-profile") !== null)
+                document.getElementById("nav-profile").classList.add("hide");
+        }
 
         // check if sign in page is loaded
         if(document.getElementById("form-sign-in") !== null){
             // reset form fields
             document.querySelector('.form-account').reset();
             document.getElementById('email').focus();
+            return;
         } else {
             if(document.getElementById("form-register") !== null){
                 // reset form fields
                 document.querySelector('.form-account').reset();
                 document.getElementById('first-name').focus();
+                return;
             }
         }
-
-        let token = JSON.parse(localStorage.getItem(webPizza.KEY));
-        //console.log('token',token);
 
         // Logged-in user
         if(token !== null){
@@ -58,18 +91,16 @@ let webPizza = {
                 // fill out the profile form
                 webPizza.loadProfile();
                 document.getElementById('newPwd').focus();
+                return;
             } else {
                 if (document.getElementById("form-pizzas") !== null || document.getElementById("form-ingredients") !== null) {          
-                    let token = JSON.parse(localStorage.getItem(webPizza.KEY));
-                    console.log('list');
-                    
-                    // Logged-in user
-                    if(token !== null){
-                        document.getElementById("nav-sign-in").classList.add("hide");
-                        document.getElementById("nav-sign-out").classList.remove("hide");
-                        document.getElementById("nav-profile").classList.remove("hide");
+                    // check if user isStaff
+                    if(isStaff === true){
+                        webPizza.listAll();
+                    } else {
+                        alert('Only staff customer has access to this page');
                     }
-                    webPizza.listAll();
+                    
                 } else {
                     if (document.getElementById("form-ingredient-edit") !== null || document.getElementById("form-pizza-edit") !== null){
                         //console.log('add/edit page')
@@ -89,6 +120,7 @@ let webPizza = {
                         };
 
                         document.getElementById('name').focus();
+                        return;
                     }
                 }
             }
@@ -124,6 +156,13 @@ let webPizza = {
                             document.getElementById('btn-back').addEventListener('click', webPizza.callListScreen);
                             document.getElementById('btn-save').addEventListener('click', webPizza.saveItem);
                             document.getElementById('price').addEventListener('blur', webPizza.formatCurrency);
+                        }  else {
+                            if(document.getElementById('form-index')){
+                                //document.getElementById('nav-ingredients').addEventListener('click', webPizza.setMenuItems);
+                                document.getElementById('nav-ingredients').addEventListener('click', function(){
+                                    console.log('ingredients option');
+                                });
+                            }
                         }
                     }
                 }
@@ -195,8 +234,15 @@ let webPizza = {
             console.log(jsonData);
 
             //get the token from localStorage
-            let token = JSON.parse(localStorage.getItem(webPizza.KEY));
-            //console.log(token);
+            //let token = JSON.parse(localStorage.getItem(webPizza.KEY));
+            let objToken = {};
+            objToken = localStorage.getItem(webPizza.KEY);
+            if (objToken) {
+                objToken = JSON.parse(objToken);
+            }
+            //console.log('token',objToken);
+            let token = objToken.token;
+            let isStaff = objToken.isStaff;
 
             //create a Headers object
             let headers = new Headers();
@@ -272,8 +318,15 @@ let webPizza = {
             let url = webPizza.BASEURL + "/api/" + typeItem + "/" + itemId;
 
             //get the token from localStorage
-            let token = JSON.parse(localStorage.getItem(webPizza.KEY));
-            //console.log(token);
+            //let token = JSON.parse(localStorage.getItem(webPizza.KEY));
+            let objToken = {};
+            objToken = localStorage.getItem(webPizza.KEY);
+            if (objToken) {
+                objToken = JSON.parse(objToken);
+            }
+            //console.log('token',objToken);
+            let token = objToken.token;
+            let isStaff = objToken.isStaff;
 
             //create a Headers object
             let headers = new Headers();
@@ -313,68 +366,6 @@ let webPizza = {
                     console.error(err.code + ': ' + err.message);
                     alert(err.message);
                 })
-
-                // let div1 = document.createElement('div');
-                // div1.className = 'modal fade';
-                // div1.id = 'confirmDelete';
-                // div1.setAttribute('tabindex','-1');
-                // div1.setAttribute('role','dialog');
-                // div1.setAttribute('aria-labelledby','confirmDeleteLabel');
-                // div1.setAttribute('aria-hidden','true');
-                // let div2 = document.createElement('div');
-                // div2.className = 'modal-dialog';
-                // div2.setAttribute('role', 'document');
-                // let div3 = document.createElement('div');
-                // div3.className = 'modal-content';
-                // let div4 = document.createElement('div');
-
-                // div4.className = 'modal-header';
-                // let h5 = document.createElement('h5');
-                // h5.className = 'modal-title';
-                // h5.id = 'confirmDeleteLabel';
-                // h5.textContent = 'Delete Ingredient';
-                // let btn1 = document.createElement('button');
-                // btn1.type = 'button';
-                // btn1.className = 'close';
-                // btn1.setAttribute('data-dismiss','modal');
-                // btn1.setAttribute('aria-label','Close');
-                // let span = document.createElement('span');
-                // span.setAttribute('aria-hidden','true');
-                // span.textContent = '&times;';
-
-                // div4.appendChild(h5);
-                // div4.appendChild(btn1);
-                // div4.appendChild(span);
-
-                // let div5 = document.createElement('div');
-                // div5.className = 'modal-body';
-                // div5.textContent = 'Are you sure you want to delete this ingredient?';
-
-                // let div6 = document.createElement('div');
-                // div6.className = 'modal-footer';
-                // let btn2 = document.createElement('button');
-                // btn2.type = 'button';
-                // btn2.className = 'btn btn-secondary';
-                // btn2.setAttribute('data-dismiss','modal');
-                
-                // btn2.textContent = 'Yes';
-                // let btn3 = document.createElement('button');
-                // btn3.type = 'button';
-                // btn3.className = 'btn btn-primary';
-                // btn3.setAttribute('data-dismiss','modal');
-                // btn3.textContent = 'No';
-
-                // div6.appendChild(btn2);
-                // div6.appendChild(btn3);
-
-                // div2.appendChild(div3);
-                // div2.appendChild(div4);
-                // div2.appendChild(div5);
-                // div2.appendChild(div6);
-
-                // div1.appendChild(div2);
-
-                // console.log(div1);
         }
     },
     displayMessage: function(type, msg){
@@ -471,19 +462,74 @@ let webPizza = {
                     let data = result.data;
                     //console.log('TOKEN', data.token);
 
-                    //put this in sessionStorage
-                    localStorage.removeItem(webPizza.KEY);
-                    localStorage.setItem(webPizza.KEY, JSON.stringify(data.token));
+                    let token = data.token;
                 
-                    // Set the menu items according to isStaff flag
-                    webPizza.setMenuItems();
-                
-                })
+                    // check if staff
+                    //define the end point for the request
+                    let url = webPizza.BASEURL + "/auth/users/me";
+
+                    //create a Headers object
+                    let headers = new Headers();
+                    //append the Authorization header
+                    headers.append('Authorization', 'Bearer ' + token);
+                    headers.append('Content-Type', 'application/json;charset=UTF-8');
+                    console.log(headers);
+
+                    //create a Request Object
+                    let req = new Request(url, {
+                        headers: headers,
+                        method: 'GET',
+                        mode: 'cors'
+                    });
+
+                    // get logged-in user's data
+                    fetch(req)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Error ' + response.status + ' ' + response.statusText);
+                            } else {
+                                return response.json();
+                            }
+                        })
+                        .then(result => {
+                            //console.log("success");
+                            let data = result.data;
+
+                            let PizzaShopKey = {
+                                "token" : token,
+                                "isStaff": data.isStaff
+                            }
+
+                            console.log(JSON.stringify(PizzaShopKey));
+
+                            //put this in sessionStorage
+                            localStorage.removeItem(webPizza.KEY);
+                            localStorage.setItem(webPizza.KEY, JSON.stringify(PizzaShopKey));
+
+                            if(!data.isStaff){
+                                // if user is not a staff, load the sign in page again
+                                if(document.getElementById('form-sign-in')){
+                                    // call home page if after sign in page
+                                    document.location.href = "./index.html";
+                                }
+                                
+                            } else {
+                                // call pizza list page for the logged-in user
+                                document.location.href = "./admin/pizzas.html";
+                            };
+                        
+                        })
+                        .catch(err => {
+                            //there will be an error because this is not a valid URL
+                            console.error(err.code + ': ' + err.message);
+                            alert(err.message);
+                        })
+                })        
                 .catch(err => {
                     //there will be an error because this is not a valid URL
                     console.error(err.code + ': ' + err.message);
                     alert(err.message);
-                })
+                })        
         } else {
             // display invalid inputs
             InvalidInput.forEach( obj =>{               
@@ -530,8 +576,15 @@ let webPizza = {
         let url = webPizza.BASEURL + "/api/" + typeList;
        
         //get the token from localStorage
-        let token = JSON.parse(localStorage.getItem(webPizza.KEY));
-        //console.log(token);
+        //let token = JSON.parse(localStorage.getItem(webPizza.KEY));
+        let objToken = {};
+        objToken = localStorage.getItem(webPizza.KEY);
+        if (objToken) {
+            objToken = JSON.parse(objToken);
+        }
+        //console.log('token',objToken);
+        let token = objToken.token;
+        let isStaff = objToken.isStaff;
 
         //create a Headers object
         let headers = new Headers();
@@ -672,8 +725,15 @@ let webPizza = {
             let url = webPizza.BASEURL + "/api/" + typeItem + "/" + itemId;
 
             //get the token from localStorage
-            let token = JSON.parse(localStorage.getItem(webPizza.KEY));
-            //console.log(token);
+            //let token = JSON.parse(localStorage.getItem(webPizza.KEY));
+            let objToken = {};
+            objToken = localStorage.getItem(webPizza.KEY);
+            if (objToken) {
+                objToken = JSON.parse(objToken);
+            }
+            //console.log('token',objToken);
+            let token = objToken.token;
+            let isStaff = objToken.isStaff;
 
             //create a Headers object
             let headers = new Headers();
@@ -778,8 +838,15 @@ let webPizza = {
         let url = webPizza.BASEURL + "/api/ingredients";
        
         //get the token from localStorage
-        let token = JSON.parse(localStorage.getItem(webPizza.KEY));
-        //console.log(token);
+        //let token = JSON.parse(localStorage.getItem(webPizza.KEY));
+        let objToken = {};
+        objToken = localStorage.getItem(webPizza.KEY);
+        if (objToken) {
+            objToken = JSON.parse(objToken);
+        }
+        //console.log('token',objToken);
+        let token = objToken.token;
+        let isStaff = objToken.isStaff;
 
         //create a Headers object
         let headers = new Headers();
@@ -907,10 +974,10 @@ let webPizza = {
                 //console.log(chkExtra);
                 if(extraTopPizza.length > 0){
                     extraTopPizza.forEach(item => {
-                        //console.log('extra ',item);
+                        //console.log('extra ',item._id, item.name);
                         chkExtra.forEach( opt => {
                             //console.log(opt);
-                            if(opt.classList.contains(item)){
+                            if(opt.classList.contains(item._id)){
                                 opt.checked = true;
                                 //console.log(opt.checked);
                             }
@@ -929,8 +996,15 @@ let webPizza = {
         let url = webPizza.BASEURL + "	/auth/users/me"
 
         //get the token from localStorage
-        let token = JSON.parse(localStorage.getItem(webPizza.KEY));
-        //console.log(token);
+        //let token = JSON.parse(localStorage.getItem(webPizza.KEY));
+        let objToken = {};
+        objToken = localStorage.getItem(webPizza.KEY);
+        if (objToken) {
+            objToken = JSON.parse(objToken);
+        }
+        //console.log('token',objToken);
+        let token = objToken.token;
+        let isStaff = objToken.isStaff;
 
         //create a Headers object
         let headers = new Headers();
@@ -1129,8 +1203,15 @@ let webPizza = {
             };
 
             //get the token from localStorage
-            let token = JSON.parse(localStorage.getItem(webPizza.KEY));
-            //console.log(token);
+            //let token = JSON.parse(localStorage.getItem(webPizza.KEY));
+            let objToken = {};
+            objToken = localStorage.getItem(webPizza.KEY);
+            if (objToken) {
+                objToken = JSON.parse(objToken);
+            }
+            //console.log('token',objToken);
+            let token = objToken.token;
+            let isStaff = objToken.isStaff;
 
             //create a Headers object
             let headers = new Headers();
@@ -1163,7 +1244,7 @@ let webPizza = {
 
                 item = {
                     name: document.getElementById('name').value,
-                    price: document.getElementById('price').value * 100,
+                    price: parseInt(document.getElementById('price').value * 100),
                     quantity: document.getElementById('quantity').value,
                     isGlutenFree: (document.getElementById('no-glutenfree').checked) ? "false" : "true",
                     imageUrl: (document.getElementById('url').value === "") ? "" : document.getElementById('url').value,
@@ -1202,7 +1283,7 @@ let webPizza = {
                 
                 item = {
                     name: document.getElementById('name').value,
-                    price: document.getElementById('price').value * 100,
+                    price: parseInt(document.getElementById('price').value * 100),
                     size: sizePizza,
                     isGlutenFree: (document.getElementById('no-glutenfree').checked) ? "false" : "true",
                     imageUrl: (document.getElementById('imageUrl').value === "") ? "" : document.getElementById('imageUrl').value,
@@ -1270,63 +1351,6 @@ let webPizza = {
                 failField.parentElement.appendChild(invalidMsg);    
             })  
         };
-    },
-    setMenuItems: function(){  
-        // set menu items according to isStaff flag
-
-        //define the end point for the request
-        let url = webPizza.BASEURL + "/auth/users/me";
-       
-        //get the token from localStorage
-        let token = JSON.parse(localStorage.getItem(webPizza.KEY));
-        //console.log(token);
-
-        //create a Headers object
-        let headers = new Headers();
-        //append the Authorization header
-        headers.append('Authorization', 'Bearer ' + token);
-        headers.append('Content-Type', 'application/json;charset=UTF-8');
-        //console.log(headers);
-
-        //create a Request Object
-        let req = new Request(url, {
-            headers: headers,
-            method: 'GET',
-            mode: 'cors'
-        });
-
-        // get logged-in user's data
-        fetch(req)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Error ' + response.status + ' ' + response.statusText);
-                } else {
-                    return response.json();
-                }
-            })
-            .then(result => {
-                //console.log("success");
-                let data = result.data;
-                
-                //console.log('isStaff', data.isStaff);
-                if(!data.isStaff){
-                    // if user is not a staff, load the sign in page again
-                    // alert("Only staff users have access to this system.");
-                    // webPizza.displayMessage("info","Only staff users have access to this system.");
-                    // webPizza.prepareInitialScreen();
-                    // call home page
-                    document.location.href = "./index.html";
-                } else {
-                    // call pizza list page for the logged-in user
-                    document.location.href = "./admin/pizzas.html";
-                };
-            
-            })
-            .catch(err => {
-                //there will be an error because this is not a valid URL
-                console.log(err.code + ': ' + err.message);
-                alert(err.message);
-            })
     },
     showPassword: function(ev) {
         ev.preventDefault();
