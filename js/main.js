@@ -156,7 +156,7 @@ let webPizza = {
                 console.log(queryString);
             }
             // call item (ingredient or pizza) detail page (add/edit)
-            document.location.href = "./admin/" + typeItem + "-edit.html" + queryString;
+            document.location.href = typeItem + "-edit.html" + queryString;
         } 
     },
     callListScreen: function(){
@@ -168,7 +168,7 @@ let webPizza = {
                 typeItem = "pizzas";
             }
         }
-        document.location.href = "./admin/" + typeItem + ".html";
+        document.location.href = typeItem + ".html";
     },
     changePassword: function(ev){
         ev.preventDefault();
