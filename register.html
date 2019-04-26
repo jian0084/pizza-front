@@ -62,7 +62,7 @@
         </div>
     </nav>
     <main class="d-flex">
-        <div class="container">
+        <div class="container align-items-center justify-content-center my-auto">
             <form class="form-account">
                 <h4 align="center">SIGN UP</h4>
                 <div class="form-group" id="first-name-input">
@@ -99,16 +99,16 @@
                     </div>
                 </div>
                 <div class="form-group form-check">
-                    <div class="col-10 mx-4 mt-4">
+                    <div class="col-10 mx-4 mt-3" id="flexer">
                         <input type="checkbox" class="form-check-input" id="show-password">
                         <label class="form-check-label" for="show-password">Show password</label>
                     </div>
                 </div>
-                <div class="form-group col-md-6" id="isStaff-input">
-                    <div class="col ml-2 mt-3">
+                <div class="form-group" id="isStaff-input">
+                    <div class="col-6 col-6 mx-4 mt-3">
                         <label for="inputIsStaff">User Type</label>
                     </div>
-                    <div class="col ml-2">
+                    <div class="col-10 mx-4">
                         <select id="inputIsStaff" class="form-control">
                             <option value="" selected>Choose...</option>
                             <option value="staff">Staff</option>
@@ -116,7 +116,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="form-group col-md-6">
+                <div class="submit-btn form-group col-md-6 d-flex align-items-center justify-content-center">
                     <button type="button" class="btn btn-rounded btn-signup" id="signup-btn-signup">Create an Account</button>
                 </div>
             </form>

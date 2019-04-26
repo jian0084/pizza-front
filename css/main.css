@@ -48,6 +48,7 @@ html {
     line-height: 1.5rem;
 }
 
+/*
 h1,
 h2,
 h3,
@@ -57,6 +58,7 @@ h6,
 .h3 {
     font-family: Merriweather, Cambria, "Times New Roman", serif;
 }
+*/
 
 .h3 {
     color: var(--dkred);
@@ -83,16 +85,13 @@ header .hd-title {
 
 .container {
     width: 80vw;
+/*
     margin: 0 auto;
     padding: 0;
+*/
 }
 
-.form-account {
-    width: 600px;
-    margin: 0 auto;
-    border: 1px solid var(--white);
-    margin-top: 4rem;
-}
+
 
 /* 
 .btn-dark,
@@ -121,6 +120,12 @@ form {
     margin-top: 3rem;
     padding: 3rem;
     background-color: white;
+}
+
+.form-account {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem auto;
 }
 
 .form-group label,
@@ -265,6 +270,10 @@ main {
     margin-right: 10px;
 }
 
+.submit-btn {
+    margin-top: 30px;
+}
+
 .alert {
     top: 0;
     left: 0;
@@ -276,34 +285,12 @@ main {
     transform: translateY(250px);
 }
 
-
-.slide-hide {
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
-    border: 1px solid #bbb;
-    background: -webkit-linear-gradient(top, #fff, #ddd);
-    background: -moz-linear-gradient(top, #fff, #ddd);
-    background: linear-gradient(top, #fff, #ddd);
-
-    -webkit-transform: translateY(-100%);
-    -moz-transform: translateY(-100%);
-    -ms-transform: translateY(-100%);
-    -o-transform: translateY(-100%);
-    transform: translateY(-100%);
+h4 {
+    font-family: 
+    background-color: lightcyan;
+    margin-bottom: 0;
+    height: 60px;
 }
-
-.slide-show {
-    -webkit-transform: translateY(0%);
-    -moz-transform: translateY(0%);
-    -ms-transform: translateY(0%);
-    -o-transform: translateY(0%);
-    transform: translateY(0%);
-}
-
-/*
-.navbar-toggler {
-    color: white;
-}
-*/
 
 .navbar-toggle{
     background-color: transparent;
@@ -321,4 +308,23 @@ main {
 
 .navbar {
     justify-content:flex-start;
+}
+
+
+.form-check {
+    display: inline-block;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.form-check-label {
+    margin-left: 1rem;
+}
+/*
+#flexer{
+    display:flex
+}*/
+
+#show-password {
+    margin-top: 0 !important
 }
