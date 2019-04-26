@@ -21,7 +21,7 @@ let webPizza = {
     // BASEURL: 'http://mad9124.rocks',
     //BASEURL: 'https://jsonplaceholder.typicode.com/',
     // BASEURL: 'http://127.0.0.1:3030',
-    BASEURL: 'jian0084.edumedia.ca',
+    BASEURL: 'http://jian0084.edumedia.ca',
     init: function () {
         document.addEventListener("DOMContentLoaded", webPizza.ready,false);
     },
